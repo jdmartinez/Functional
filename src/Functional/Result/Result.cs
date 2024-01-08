@@ -1,10 +1,10 @@
 namespace Functional;
 
-public partial record struct Result : IResult
+public readonly partial record struct Result : IResult
 {
     public bool IsSuccess { get; } = true;
 
-    public bool IsFailure => !IsSuccess;
+    public readonly bool IsFailure => !IsSuccess;
 
     public Error Error { get; } = Error.None;
 

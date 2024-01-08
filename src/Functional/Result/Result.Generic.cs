@@ -1,6 +1,6 @@
 ﻿namespace Functional;
 
-public partial record struct Result<T> : IResult<T>
+public readonly partial record struct Result<T> : IResult<T>
 {
     private readonly T _value = default!;
 

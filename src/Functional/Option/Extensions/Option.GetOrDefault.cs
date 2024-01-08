@@ -18,10 +18,16 @@ public static partial class OptionExtensions
             () => defaultValue()
         );
 
-    public static TReturn GetOrDefault<T, TReturn>(this Option<T> opt, Func<T, TReturn> selector, TReturn defaultValue = default!)
+    public static TReturn GetOrDefault<T, TReturn>(this Option<T> opt, Func<T, TReturn> selector, TReturn defaultValue)
         => opt.Match(
             v => selector(v),
             () => defaultValue
+        );
+
+    public static async Task<T> GetOrDefault<T, TReturn>(this Option<T> opt, Func<Task<T>> defaultValue)
+        => opt.Match(
+            v => Task.FromResult(v),
+            () => await defaultValue()
         );
 
 }
