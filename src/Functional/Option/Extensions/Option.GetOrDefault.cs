@@ -23,11 +23,4 @@ public static partial class OptionExtensions
             v => selector(v),
             () => defaultValue
         );
-
-    public static async Task<T> GetOrDefault<T, TReturn>(this Option<T> opt, Func<Task<T>> defaultValue)
-        => opt.Match(
-            v => Task.FromResult(v),
-            () => await defaultValue()
-        );
-
 }

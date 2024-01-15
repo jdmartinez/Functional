@@ -22,11 +22,4 @@ public static partial class ResultExtensions
 
         return result;
     }
-
-    public static Task<Result<T>> Tap<T>(this Result<T> result, Action<Task<T>> action)
-    {
-        if (result.IsSuccess) action();
-
-        return result;
-    }
 }

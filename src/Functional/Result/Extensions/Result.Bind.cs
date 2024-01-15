@@ -7,10 +7,4 @@ public static partial class ResultExtensions
             func,
             Result.Failure<TReturn>
         );
-
-    public static async Task<TResult<TReturn>> Bind<T, TReturn>(this Result<T> result, Func<T, Task<TReturn>> func)
-        => await result.Match(
-            func, 
-            Result.Failure<TReturn>
-        );
 }

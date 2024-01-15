@@ -1,6 +1,6 @@
 namespace Functional;
 
-public readonly partial record struct Result : IResult
+public readonly partial record struct Result
 {
     public bool IsSuccess { get; } = true;
 

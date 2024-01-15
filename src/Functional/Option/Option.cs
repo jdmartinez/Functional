@@ -7,7 +7,7 @@ public readonly record struct Option
     public static Option<T> From<T>(T value) => Option<T>.From(value);
 }
 
-public readonly record struct Option<T> : IOption<T>
+public readonly record struct Option<T>
 {
     private readonly bool _hasValue;
     private readonly T _value;
