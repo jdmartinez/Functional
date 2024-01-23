@@ -1,4 +1,4 @@
-namespace Functional;
+﻿namespace Functional;
 
 public static partial class ResultExtensions
 {
@@ -13,7 +13,7 @@ public static partial class ResultExtensions
         var failed = results.Where(r => r.IsFailure);
 
         return failed.Any()
-            ? Result.Failure<IEnumerable<T>>(failed.First().Error)
+            ? Result.Failure<IEnumerable<T>>(failed.First().Errors)
             : Result.Success(results.Select(r => r.Value));
     }
 }

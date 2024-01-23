@@ -14,7 +14,7 @@ public readonly record struct Option<T>
 
     public T Value => !_hasValue ? throw new InvalidOperationException(nameof(Value)) : _value;
 
-    public static Option<T> None => new();
+    public static Option<T> None => default;
 
     public bool HasValue => _hasValue;
 

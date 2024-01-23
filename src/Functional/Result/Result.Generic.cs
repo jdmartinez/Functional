@@ -4,35 +4,34 @@ public readonly partial record struct Result<T>
 {
     private readonly T _value = default!;
 
-    public bool IsSuccess { get; } = true;
+    public readonly bool IsSuccess { get; } = true;
 
     public readonly bool IsFailure => !IsSuccess;
 
-    public readonly T Value => IsSuccess ? _value : throw new InvalidOperationException(Error.Message);
+    public readonly T Value => IsSuccess ? _value : throw new InvalidOperationException();
 
-    public Error Error { get; } = Error.None;
+    public readonly IEnumerable<Error> Errors { get; } = [];
 
-    private Result(T value)
+    private Result(T value) => _value = value;
+
+    private Result(IEnumerable<Error> errors)
     {
-        IsSuccess = true;
-        _value = value;
-    }
+        var cleanedErrors = errors
+            .Where(e => e != Error.None)
+            .ToArray();
 
-    private Result(Error error)
-    {
-        if (error == Error.None) throw new ArgumentException("Invalid error", nameof(error));
+        if (cleanedErrors.Length == 0)
+            throw new ArgumentException("Invalid error", nameof(errors));
 
         IsSuccess = false;
-        Error = error;
+        Errors = cleanedErrors;
     }
 
     public static Result<T> Success(T value) => new(value);
 
-    public static Result<T> Failure(Error error) => new(error);
-
-    public bool Equals(T other) => EqualityComparer<T>.Default.Equals(Value, other);
+    public static Result<T> Failure(IEnumerable<Error> errors) => new(errors);
 
     public static implicit operator Result<T>(T value) => Success(value);
 
-    public static implicit operator Result<T>(Error error) => Failure(error);
+    public static implicit operator Result<T>(Error error) => Failure([error]);
 }
