@@ -1,6 +1,6 @@
 ﻿namespace Functional;
 
-public record Error(int Code = 0, string Message = "")
+public readonly partial record struct Error(string Code = "", string Message = "")
 {
     public static readonly Error None = new();
 
