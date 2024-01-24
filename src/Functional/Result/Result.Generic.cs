@@ -29,6 +29,8 @@ public readonly partial record struct Result<T>
 
     public static Result<T> Success(T value) => new(value);
 
+    public static Result<T> Failure(Error error) => new([error]);
+
     public static Result<T> Failure(IEnumerable<Error> errors) => new(errors);
 
     public static implicit operator Result<T>(T value) => Success(value);
