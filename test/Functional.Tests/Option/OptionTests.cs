@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 
-namespace Functional.Tests.Option;
+namespace Functional.Tests;
 
 public class OptionTests
 {
