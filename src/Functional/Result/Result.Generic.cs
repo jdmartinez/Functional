@@ -27,6 +27,19 @@ public readonly partial record struct Result<T>
         Errors = cleanedErrors;
     }
 
+    public static Result<T> Combine(params Result<T>[] results)
+    {
+        if (results.Any(r => r.IsFailure))
+        {
+            return Failure(results
+                .SelectMany(r => r.Errors)
+                .Where(e => e != Error.None)
+                .Distinct());
+        }
+
+        return Success(results[0].Value);
+    }
+
     public static Result<T> Success(T value) => new(value);
 
     public static Result<T> Failure(Error error) => new([error]);
