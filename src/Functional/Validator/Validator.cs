@@ -30,7 +30,7 @@ public sealed class Validator<T>
 
         if (!failureRules.Any()) return Result.Success(_value);
 
-        return Result<T>.Failure(failureRules.Select(r => Validator<T>.ToError(r)));
+        return Result<T>.Failure(failureRules.Select(r => Validator<T>.ToError(r)).FirstOrDefault());
     }
 
     private static Error ToError(ValidationRule validationRule)

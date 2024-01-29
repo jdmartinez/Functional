@@ -50,20 +50,6 @@ public class ResultTests
         Result<TestClass> result = error;
 
         result.IsFailure.Should().BeTrue();
-        result.Errors.Count().Should().Be(1);
-    }
-
-    [Fact]
-    public void Can_create_a_result_failure_from_error_list()
-    {
-        var errors = new List<Error>
-        {
-            new("1", "error 1"),
-            new("2", "error 2"),
-        };
-        var result = Result<TestClass>.Failure(errors);
-
-        result.IsFailure.Should().BeTrue();
-        result.Errors.Count().Should().Be(errors.Count);
+        result.Error.Should().Be(error);
     }
 }

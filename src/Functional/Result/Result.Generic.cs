@@ -10,43 +10,24 @@ public readonly partial record struct Result<T>
 
     public readonly T Value => IsSuccess ? _value : throw new InvalidOperationException();
 
-    public readonly IEnumerable<Error> Errors { get; } = [];
+    public readonly Error Error { get; } = Error.None;
 
     private Result(T value) => _value = value;
 
-    private Result(IEnumerable<Error> errors)
+    private Result(Error error)
     {
-        var cleanedErrors = errors
-            .Where(e => e != Error.None)
-            .ToArray();
-
-        if (cleanedErrors.Length == 0)
-            throw new ArgumentException("Invalid error", nameof(errors));
+        if (error == Error.None)
+            throw new ArgumentException("Invalid error", nameof(error));
 
         IsSuccess = false;
-        Errors = cleanedErrors;
-    }
-
-    public static Result<T> Combine(params Result<T>[] results)
-    {
-        if (results.Any(r => r.IsFailure))
-        {
-            return Failure(results
-                .SelectMany(r => r.Errors)
-                .Where(e => e != Error.None)
-                .Distinct());
-        }
-
-        return Success(results[0].Value);
+        Error = error;
     }
 
     public static Result<T> Success(T value) => new(value);
 
-    public static Result<T> Failure(Error error) => new([error]);
-
-    public static Result<T> Failure(IEnumerable<Error> errors) => new(errors);
+    public static Result<T> Failure(Error error) => new(error);
 
     public static implicit operator Result<T>(T value) => Success(value);
 
-    public static implicit operator Result<T>(Error error) => Failure([error]);
+    public static implicit operator Result<T>(Error error) => Failure(error);
 }
