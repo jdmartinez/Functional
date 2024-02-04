@@ -8,7 +8,7 @@ public readonly partial record struct Result<T>
 
     public readonly bool IsFailure => !IsSuccess;
 
-    public readonly T Value => IsSuccess ? _value : throw new InvalidOperationException();
+    public readonly T Value => IsSuccess ? _value : throw new InvalidOperationException(nameof(Value));
 
     public readonly Error Error { get; } = Error.None;
 
