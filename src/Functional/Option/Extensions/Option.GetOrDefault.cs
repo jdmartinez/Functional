@@ -18,10 +18,9 @@ public static partial class OptionExtensions
             () => defaultValue()
         );
 
-    public static TReturn GetOrDefault<T, TReturn>(this Option<T> opt, Func<T, TReturn> selector, TReturn defaultValue = default!)
+    public static TReturn GetOrDefault<T, TReturn>(this Option<T> opt, Func<T, TReturn> selector, TReturn defaultValue)
         => opt.Match(
             v => selector(v),
             () => defaultValue
         );
-
 }

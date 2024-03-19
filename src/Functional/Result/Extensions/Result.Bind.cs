@@ -1,4 +1,4 @@
-namespace Functional;
+﻿namespace Functional;
 
 public static partial class ResultExtensions
 {

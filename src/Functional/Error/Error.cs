@@ -1,10 +1,8 @@
-namespace Functional;
+﻿namespace Functional;
 
-public record Error(int Code = 0, string Message = "") : GenericError
+public readonly partial record struct Error(string Code = "", string Message = "")
 {
     public static readonly Error None = new();
 
-    public override int Code { get; init ; } = Code;
-
-    public override string Message { get; init ; } = Message;
+    public override string ToString() => Message;
 }

@@ -7,4 +7,5 @@ public static partial class OptionExtensions
             v => predicate(v) ? opt : Option<T>.None,
             () => Option<T>.None
         );
+
 }
