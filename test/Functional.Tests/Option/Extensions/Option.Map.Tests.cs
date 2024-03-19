@@ -17,4 +17,16 @@ public partial class OptionExtensionsTests
         result.HasValue.Should().BeTrue();
         result.Value.Should().Be(testValue);
     }
+
+    [Fact]
+    public void Map_WhenOptionIsNone_ShouldReturnNone()
+    {
+        var option = Option<TestClass>.None;
+        Func<TestClass, string> selector = value => "test";
+
+        var result = option.Map(selector);
+
+        result.Should().BeOfType<Option<string>>();
+        result.HasValue.Should().BeFalse();
+    }
 }
