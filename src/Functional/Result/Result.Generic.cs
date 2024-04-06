@@ -1,6 +1,6 @@
 ﻿namespace Functional;
 
-public readonly partial record struct Result<T>
+public readonly partial record struct Result<T> : IResult<T>
 {
     private readonly T _value = default!;
 
@@ -27,7 +27,17 @@ public readonly partial record struct Result<T>
 
     public static Result<T> Failure(Error error) => new(error);
 
-    public static implicit operator Result<T>(T value) => Success(value);
+    public static implicit operator Result<T>(T value)
+        => value is IResult<T> result
+            ? result.IsSuccess
+                ? Success(result.Value)
+                : Failure(result.Error)
+            : Success(value);
+
+    public static implicit operator Result(Result<T> result)
+        => result.IsSuccess
+            ? Result.Success()
+            : Result.Failure();
 
     public static implicit operator Result<T>(Error error) => Failure(error);
 }
