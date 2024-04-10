@@ -1,0 +1,41 @@
+name: Code Quality
+
+on: 
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - .gitignore
+      - LICENSE
+      - README.md
+
+  pull_request:
+    branches: [ main, dev ]
+    paths-ignore:
+      - .gitignore
+      - LICENSE
+      - README.md
+
+  schedule:
+    - cron: '00 0 * * 1'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v3
+      env:
+        SkipNSwag: True
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
