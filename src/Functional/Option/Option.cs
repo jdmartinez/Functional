@@ -9,25 +9,24 @@ public readonly record struct Option
 
 public readonly record struct Option<T>
 {
-    private readonly bool _hasValue;
     private readonly T _value;
 
-    public T Value => !_hasValue ? throw new InvalidOperationException(nameof(Value)) : _value;
+    public T Value => !HasValue ? throw new InvalidOperationException(nameof(Value)) : _value;
 
     public static Option<T> None => default;
 
-    public bool HasValue => _hasValue;
+    public bool HasValue { get; }
 
     private Option(T value)
     {
         if (value is null)
         {
-            _hasValue = false;
+            HasValue = false;
             _value = default!;
             return;
         }
 
-        _hasValue = true;
+        HasValue = true;
         _value = value;
     }
 
