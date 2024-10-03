@@ -2,7 +2,7 @@ using FluentAssertions;
 
 namespace Functional.Facts;
 
-public partial class ResultExtensionsTexts
+public partial class ResultExtensionsTests
 {
     [Fact]
     public void Tap_ShouldReturnSuccess_WhenResultIsSuccessWithAction()
