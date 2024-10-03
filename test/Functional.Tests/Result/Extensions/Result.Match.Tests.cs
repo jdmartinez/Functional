@@ -2,7 +2,7 @@ using FluentAssertions;
 
 namespace Functional.Tests;
 
-public partial class ResultExtensionsTexts
+public partial class ResultExtensionsTests
 {
     [Fact]
     public void Match_ShouldReturnValue_WhenResultIsSuccess()

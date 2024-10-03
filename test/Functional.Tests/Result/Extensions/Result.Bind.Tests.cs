@@ -2,7 +2,8 @@ using FluentAssertions;
 
 namespace Functional.Tests;
 
-public partial class ResultExtensionsTexts
+public partial class ResultExtensionsTests
+
 {
     [Fact]
     public void Bind_ShouldReturnResult_WhenResultIsSuccess()
