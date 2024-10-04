@@ -30,11 +30,11 @@ public sealed class Validator<T>
 
         if (!failureRules.Any()) return Result.Success(_value);
 
-        return Result<T>.Failure(failureRules.Select(r => Validator<T>.ToError(r)).FirstOrDefault());
+        return Result<T>.Failure(failureRules.Select(Validator<T>.ToError).FirstOrDefault());
     }
 
     private static Error ToError(ValidationRule validationRule)
         => string.IsNullOrEmpty(validationRule.ErrorMessage)
             ? Error.None
-            : new Error(validationRule.ErrorMessage);
+            : new Error(string.Empty, validationRule.ErrorMessage);
 }

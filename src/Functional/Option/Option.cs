@@ -23,7 +23,7 @@ public readonly record struct Option<T>
         IsSome = value is not null;
     }
 
-    public override int GetHashCode() => (Value?.GetHashCode() ?? 0) * 43;
+    public override int GetHashCode() => (_value?.GetHashCode() ?? 0) * 43;
 
     public override string ToString() => Value?.ToString() ?? "(No value)";
 

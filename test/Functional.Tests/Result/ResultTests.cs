@@ -52,4 +52,68 @@ public class ResultTests
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(error);
     }
+
+    [Fact]
+    public void Success_ShouldReturnResultSuccess_WhenIsSuccess()
+    {
+        var result = Result.Success();
+
+        result.IsSuccess.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Success_ShouldReturnResultSuccess_WhenIsValidValue()
+    {
+        var result = Result.Success(new TestClass());
+
+        result.IsSuccess.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Failure_ShouldReturnResultFailure_WhenIsAnError()
+    {
+        var result = Result<TestClass>.Failure(new Error("code", "message"));
+
+        result.IsFailure.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Operator_ShouldCreateResultFailure_FromValidValue()
+    {
+        var test = new TestClass();
+        Result<TestClass> result = test;
+
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Should().Be(test);
+    }
+
+    [Fact]
+    public void Operator_ShouldCreateResultFailure_FromValidError()
+    {
+        var error = new Error("test", "error");
+        Result<TestClass> result = error;
+
+        result.IsFailure.Should().BeTrue();
+        result.Error.Should().Be(error);
+    }
+
+    [Fact]
+    public void OperatorResult_ShouldCreateResultSuccess_FromGenericSuccess()
+    {
+        var generic = Result.Success(new TestClass());
+        var result = generic;
+
+        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeFalse();
+    }
+
+    [Fact]
+    public void OperatorResult_ShouldCreateResultFailure_FromGenericFailure()
+    {
+        var generic = Result.Failure<TestClass>(new Error("test", "test"));
+        var result = generic;
+
+        result.IsSuccess.Should().BeFalse();
+        result.IsFailure.Should().BeTrue();
+    }
 }
