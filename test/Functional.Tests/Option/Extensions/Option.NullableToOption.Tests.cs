@@ -10,7 +10,7 @@ public partial class OptionExtensionsTests
         var test = default(TestClass);
         var options = test.ToOption();
 
-        options.HasValue.Should().BeFalse();
+        options.IsSome.Should().BeFalse();
     }
 
     [Fact]
@@ -19,6 +19,6 @@ public partial class OptionExtensionsTests
         var test = new TestClass();
         var options = test.ToOption();
 
-        options.HasValue.Should().BeTrue();
+        options.IsSome.Should().BeTrue();
     }
 }

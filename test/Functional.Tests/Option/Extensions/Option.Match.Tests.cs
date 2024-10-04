@@ -8,7 +8,7 @@ public partial class OptionExtensionsTests
     public void Match_WhenOptionHasValue_ShouldRunSomePredicateAndReturnValue()
     {
         var testClass = new TestClass();
-        var option = Option<TestClass>.From(testClass);
+        var option = Option<TestClass>.Some(testClass);
 
         var result = option.Match(value => value.ToString(), () => "none");
 
@@ -18,7 +18,7 @@ public partial class OptionExtensionsTests
     [Fact]
     public void Match_WhenOptionHasNoValue_ShouldRunNonePredicateAndReturnValue()
     {
-        var option = Option<TestClass>.From(null!);
+        var option = Option<TestClass>.Some(null!);
 
         var result = option.Match(value => value.ToString(), () => "none");
 
