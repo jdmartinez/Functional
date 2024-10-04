@@ -9,7 +9,7 @@ public partial class OptionExtensionsTests
     {
         var test = new TestClass();
         var defaultTest = new TestClass();
-        var option = Option.From(test);
+        var option = Option.Some(test);
 
         var result = option.Reduce(defaultTest);
 
@@ -32,7 +32,7 @@ public partial class OptionExtensionsTests
     {
         var test = new TestClass();
         var defaultTest = new TestClass();
-        var option = Option.From(test);
+        var option = Option.Some(test);
 
         var result = option.Reduce(() => defaultTest);
 
@@ -55,8 +55,8 @@ public partial class OptionExtensionsTests
     {
         var test = new TestClass();
         var defaultTest = new TestClass();
-        var option = Option.From(test);
-        var defaultOption = Option.From(defaultTest);
+        var option = Option.Some(test);
+        var defaultOption = Option.Some(defaultTest);
 
         var result = option.Reduce(defaultOption);
 
@@ -68,7 +68,7 @@ public partial class OptionExtensionsTests
     {
         var option = Option<TestClass>.None;
         var defaultTest = new TestClass();
-        var defaultValue = Option.From(defaultTest);
+        var defaultValue = Option.Some(defaultTest);
 
         var result = option.Reduce(defaultValue);
 
@@ -80,8 +80,8 @@ public partial class OptionExtensionsTests
     {
         var test = new TestClass();
         var defaultTest = new TestClass();
-        var option = Option.From(test);
-        var defaultValue = Option.From(defaultTest);
+        var option = Option.Some(test);
+        var defaultValue = Option.Some(defaultTest);
 
         // Act
         var result = option.Reduce(() => defaultValue);
@@ -95,7 +95,7 @@ public partial class OptionExtensionsTests
     {
         var defaultTest = new TestClass();
         var option = Option<TestClass>.None;
-        var defaultValue = Option.From(defaultTest);
+        var defaultValue = Option.Some(defaultTest);
 
         // Act
         var result = option.Reduce(() => defaultValue);
@@ -109,7 +109,7 @@ public partial class OptionExtensionsTests
     {
         var test = new TestClass();
         var defaultValue = new TestClass();
-        var option = Option.From(test); // Assuming you have an Option class with a static method From
+        var option = Option.Some(test); // Assuming you have an Option class with a static method From
 
         // Act
         var result = option.Reduce(v => test, defaultValue);
@@ -122,7 +122,7 @@ public partial class OptionExtensionsTests
     public void Reduce_WithSelectorAndNone_ShouldReturnDefaultValue()
     {
         var newTest = new TestClass();
-        var defaultValue = Option.From(new TestClass());
+        var defaultValue = Option.Some(new TestClass());
         var option = Option<TestClass>.None;
 
         var result = option.Reduce(_ => newTest, defaultValue);

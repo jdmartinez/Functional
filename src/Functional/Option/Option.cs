@@ -4,46 +4,35 @@ public readonly record struct Option
 {
     public static Option None => new();
 
-    public static Option<T> From<T>(T value) => Option<T>.From(value);
+    public static Option<T> Some<T>(T value) => Option<T>.Some(value);
 }
 
 public readonly record struct Option<T>
 {
-    private readonly T _value;
+    private readonly T? _value = default;
 
-    public T Value => !HasValue ? throw new InvalidOperationException(nameof(Value)) : _value;
+    public T Value => _value ?? throw new InvalidOperationException(nameof(Value));
 
     public static Option<T> None => default;
 
-    public bool HasValue { get; }
+    public bool IsSome { get; }
 
-    private Option(T value)
+    private Option(T? value)
     {
-        if (value is null)
-        {
-            HasValue = false;
-            _value = default!;
-            return;
-        }
-
-        HasValue = true;
-        _value = value;
+        _value = value ?? default;
+        IsSome = value is not null;
     }
 
-    public override int GetHashCode() => HasValue ? Value!.GetHashCode() * 43 : 0;
+    public override int GetHashCode() => (Value?.GetHashCode() ?? 0) * 43;
 
     public override string ToString() => Value?.ToString() ?? "(No value)";
 
-    public static Option<T> From(T value) => new(value);
+    public static Option<T> Some(T value) => new(value);
 
-    public static implicit operator Option<T>(Option value) => None;
+    public static implicit operator Option<T>(Option _) => None;
 
     public static implicit operator Option<T>(T value)
-    {
-        if (value is Option<T>) return value;
-
-        return From(value);
-    }
-
-
+        => value is Option<T> opt
+            ? opt
+            : Some(value);
 }

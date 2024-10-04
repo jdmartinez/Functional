@@ -9,7 +9,7 @@ public partial class OptionExtensionsTests
     {
         var test = new TestClass();
         var fallback = new TestClass();
-        var option = Option<TestClass>.From(test);
+        var option = Option<TestClass>.Some(test);
         var result = option.Or(fallback);
 
         result.Value.Should().Be(test);
@@ -19,17 +19,17 @@ public partial class OptionExtensionsTests
     public void Or_WhenOptionNone_Should_ReturnsFallback()
     {
         var fallback = new TestClass();
-        var option = Option<TestClass>.From(default!);
+        var option = Option<TestClass>.Some(default!);
         var result = option.Or(fallback);
 
-        result.HasValue.Should().BeTrue();
+        result.IsSome.Should().BeTrue();
     }
 
     [Fact]
     public void Or_WithFunction_WhenOptionHasValue_Should_ReturnValue()
     {
         var test = new TestClass();
-        var option = Option<TestClass>.From(test);
+        var option = Option<TestClass>.Some(test);
         var result = option.Or(() => new TestClass());
 
         result.Value.Should().Be(test);
@@ -38,18 +38,18 @@ public partial class OptionExtensionsTests
     [Fact]
     public void Or_WithFunction_WhenOptionNone_Should_ReturnsFallback()
     {
-       var option = Option<TestClass>.From(default!);
+       var option = Option<TestClass>.Some(default!);
         var result = option.Or(() => new TestClass());
 
-        result.HasValue.Should().BeTrue();
+        result.IsSome.Should().BeTrue();
     }
 
     [Fact]
     public void Or_WithOptionFunction_WhenOptionHasValue_Should_ReturnValue()
     {
         var test = new TestClass();
-        var option = Option<TestClass>.From(test);
-        var result = option.Or(() => Option<TestClass>.From(new TestClass()));
+        var option = Option<TestClass>.Some(test);
+        var result = option.Or(() => Option<TestClass>.Some(new TestClass()));
 
         result.Value.Should().Be(test);
     }
@@ -57,9 +57,9 @@ public partial class OptionExtensionsTests
     [Fact]
     public void Or_WithOptionFunction_WhenOptionNone_Should_ReturnsFallback()
     {
-        var option = Option<TestClass>.From(default!);
-        var result = option.Or(() => Option<TestClass>.From(new TestClass()));
+        var option = Option<TestClass>.Some(default!);
+        var result = option.Or(() => Option<TestClass>.Some(new TestClass()));
 
-        result.HasValue.Should().BeTrue();
+        result.IsSome.Should().BeTrue();
     }
 }
