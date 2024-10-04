@@ -8,13 +8,13 @@ public partial class OptionExtensionsTests
     public void Map_WhenOptionHasValue_ShouldApplySelectorAndReturnNewOption()
     {
         var testValue = "test";
-        var option = Option<TestClass>.From(new TestClass());
+        var option = Option<TestClass>.Some(new TestClass());
         Func<TestClass, string> selector = _ => testValue;
 
         var result = option.Map(selector);
 
         result.Should().BeOfType<Option<string>>();
-        result.HasValue.Should().BeTrue();
+        result.IsSome.Should().BeTrue();
         result.Value.Should().Be(testValue);
     }
 
@@ -27,6 +27,6 @@ public partial class OptionExtensionsTests
         var result = option.Map(selector);
 
         result.Should().BeOfType<Option<string>>();
-        result.HasValue.Should().BeFalse();
+        result.IsSome.Should().BeFalse();
     }
 }

@@ -8,13 +8,13 @@ public partial class OptionExtensionsTests
     public void Bind_WhenOptionHasValue_ShouldApplySelectorAndReturnNewOption()
     {
         var testValue = "test";
-        var option = Option<TestClass>.From(new TestClass());
+        var option = Option<TestClass>.Some(new TestClass());
         Func<TestClass, Option<string>> selector = _ => testValue;
 
         var result = option.Bind(selector);
 
         result.Should().BeOfType<Option<string>>();
-        result.HasValue.Should().BeTrue();
+        result.IsSome.Should().BeTrue();
         result.Value.Should().Be(testValue);
     }
 
@@ -30,6 +30,6 @@ public partial class OptionExtensionsTests
 
         // Assert
         result.Should().BeOfType<Option<string>>();
-        result.HasValue.Should().BeFalse();
+        result.IsSome.Should().BeFalse();
     }
 }

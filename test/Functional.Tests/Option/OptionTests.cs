@@ -12,9 +12,9 @@ public class OptionTests
     [Fact]
     public void Can_create_an_option_from_null()
     {
-        var opt = Option<TestClass>.From(null!);
+        var opt = Option<TestClass>.Some(null!);
 
-        opt.HasValue.Should().BeFalse();
+        opt.IsSome.Should().BeFalse();
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class OptionTests
     {
         var opt = (Option<TestClass>)null!;
 
-        opt.HasValue.Should().BeFalse();
+        opt.IsSome.Should().BeFalse();
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class OptionTests
     {
         var opt = Option<TestClass>.None;
 
-        opt.HasValue.Should().BeFalse();
+        opt.IsSome.Should().BeFalse();
     }
 
     [Fact]
@@ -43,9 +43,18 @@ public class OptionTests
     }
 
     [Fact]
-    public void Throw_exception_if_access_value_of_none()
+    public void Throw_exception_if_access_value_of_none_from_null_literal()
     {
         var nullOpt = (Option<TestClass>)null!;
+        var action = () => { var test = nullOpt.Value; };
+
+        action.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Throw_exeption_if_access_value_of_none()
+    {
+        var nullOpt = Option<TestClass>.None;
         var action = () => { var test = nullOpt.Value; };
 
         action.Should().Throw<InvalidOperationException>();
@@ -57,7 +66,7 @@ public class OptionTests
         var test = new TestClass();
         Option<TestClass> opt = test;
 
-        opt.HasValue.Should().BeTrue();
+        opt.IsSome.Should().BeTrue();
         opt.Value.Should().Be(test);
     }
 
@@ -73,32 +82,32 @@ public class OptionTests
     [Fact]
     public void None_option_has_no_value()
     {
-        Option<string>.None.HasValue.Should().BeFalse();
-        Option<int>.None.HasValue.Should().BeFalse();
+        Option<string>.None.IsSome.Should().BeFalse();
+        Option<int>.None.IsSome.Should().BeFalse();
     }
 
     [Fact]
     public void None_option_tuple_has_no_value()
     {
-        Option<(Array, Exception)>.None.HasValue.Should().BeFalse();
-        Option<(DateTime, bool, char)>.None.HasValue.Should().BeFalse();
-        Option<(string, TimeSpan)>.None.HasValue.Should().BeFalse();
+        Option<(Array, Exception)>.None.IsSome.Should().BeFalse();
+        Option<(DateTime, bool, char)>.None.IsSome.Should().BeFalse();
+        Option<(string, TimeSpan)>.None.IsSome.Should().BeFalse();
     }
 
     [Fact]
     public void Can_cast_non_generic_option_none_to_option_none()
     {
-        Option<int> opt = Functional.Option.None;
+        Option<int> opt = Option.None;
 
-        opt.HasValue.Should().BeFalse();
+        opt.IsSome.Should().BeFalse();
     }
 
     [Fact]
-    public void Option_From_creates_a_new_option()
+    public void Option_Some_creates_a_new_option()
     {
-        var nonGenericOpt = Functional.Option.From("test");
-        var genericOpt = Option<string>.From("test");
-        var otherOpt = Option<string>.From("other");
+        var nonGenericOpt = Functional.Option.Some("test");
+        var genericOpt = Option<string>.Some("test");
+        var otherOpt = Option<string>.Some("other");
 
         nonGenericOpt.Should().Be(genericOpt);
         nonGenericOpt.Should().NotBe(otherOpt);
