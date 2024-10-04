@@ -112,4 +112,20 @@ public class OptionTests
         nonGenericOpt.Should().Be(genericOpt);
         nonGenericOpt.Should().NotBe(otherOpt);
     }
+
+    [Fact]
+    public void GetHashCode_ShouldReturnZero_WhenNone()
+    {
+        var option = Option<TestClass>.None;
+
+        option.GetHashCode().Should().Be(0);
+    }
+
+    [Fact]
+    public void GetHashCode_ShouldReturnValidValue_WhenSome()
+    {
+        var option = Option.Some(new TestClass());
+
+        option.GetHashCode().Should().NotBe(0);
+    }
 }
