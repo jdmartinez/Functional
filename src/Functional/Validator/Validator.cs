@@ -1,40 +1,38 @@
-﻿namespace Functional;
+﻿using System.IO.Compression;
+using System.Linq.Expressions;
+
+namespace Functional;
+
+public static class Validator
+{
+    public static Validator<T> Of<T>(T value) => Validator<T>.Of(value);
+}
 
 public sealed class Validator<T>
 {
-    private record ValidationRule(
-        Func<T, object> Projection,
-        Func<object, bool> Predicate,
-        string ErrorMessage
-    );
+    public T Value { get; }
 
-    private readonly T _value = default!;
-    private readonly List<ValidationRule> _rules = [];
+    private readonly List<IValidationRule<T>> _rules = [];
 
-    private Validator(T value) => _value = value;
+    private Validator(T value) => Value = value;
 
     public static Validator<T> Of(T value) => new(value);
 
-    public Validator<T> WithRule(Func<T, object> projection, Func<object, bool> predicate, string errorMessage)
-    {
-        _rules.Add(new ValidationRule(projection, predicate, errorMessage));
+    public Validator<T> Ensure<TProp>(Expression<Func<T, TProp>> projection, Func<TProp, bool> predicate, string errorMessage)
+        => Ensure<TProp>(new ValidationRule<T, TProp>(projection, predicate, errorMessage));
 
+    public Validator<T> Ensure<TProp>(IValidationRule<T> rule)
+    {
+        _rules.Add(rule);
         return this;
     }
 
     public Result<T> Validate()
     {
-        var failureRules = _rules
-            .Where(r => !r.Predicate(r.Projection(_value)))
-            .Select(r => r);
+        var failureRule = _rules.FirstOrDefault(r => !r.Validate(Value));
 
-        if (!failureRules.Any()) return Result.Success(_value);
+        if (failureRule == null) return Result.Success(Value);
 
-        return Result<T>.Failure(failureRules.Select(Validator<T>.ToError).FirstOrDefault());
+        return failureRule.Error;
     }
-
-    private static Error ToError(ValidationRule validationRule)
-        => string.IsNullOrEmpty(validationRule.ErrorMessage)
-            ? Error.None
-            : new Error(string.Empty, validationRule.ErrorMessage);
 }

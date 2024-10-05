@@ -8,7 +8,7 @@ public partial class OptionExtensionsTests
     public void Bind_WhenOptionHasValue_ShouldApplySelectorAndReturnNewOption()
     {
         var testValue = "test";
-        var option = Option<TestClass>.Some(new TestClass());
+        var option = Option.Some(new TestClass());
         Func<TestClass, Option<string>> selector = _ => testValue;
 
         var result = option.Bind(selector);
