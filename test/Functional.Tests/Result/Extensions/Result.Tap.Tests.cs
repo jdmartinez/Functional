@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-namespace Functional.Facts;
+namespace Functional.Tests;
 
 public partial class ResultExtensionsTests
 {
