@@ -105,7 +105,7 @@ public class OptionTests
     [Fact]
     public void Option_Some_creates_a_new_option()
     {
-        var nonGenericOpt = Functional.Option.Some("test");
+        var nonGenericOpt = Option.Some("test");
         var genericOpt = Option<string>.Some("test");
         var otherOpt = Option<string>.Some("other");
 

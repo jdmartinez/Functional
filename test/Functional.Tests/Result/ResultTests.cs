@@ -101,7 +101,7 @@ public class ResultTests
     public void OperatorResult_ShouldCreateResultSuccess_FromGenericSuccess()
     {
         var generic = Result.Success(new TestClass());
-        var result = generic;
+        var result = (Result)generic;
 
         result.IsSuccess.Should().BeTrue();
         result.IsFailure.Should().BeFalse();
@@ -111,7 +111,7 @@ public class ResultTests
     public void OperatorResult_ShouldCreateResultFailure_FromGenericFailure()
     {
         var generic = Result.Failure<TestClass>(new Error("test", "test"));
-        var result = generic;
+        var result = (Result)generic;
 
         result.IsSuccess.Should().BeFalse();
         result.IsFailure.Should().BeTrue();
