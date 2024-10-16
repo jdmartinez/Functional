@@ -7,7 +7,7 @@ public readonly record struct Option
     public static Option<T> Some<T>(T value) => Option<T>.Some(value);
 }
 
-public readonly record struct Option<T>
+public readonly partial record struct Option<T>
 {
     private readonly T? _value = default;
 
