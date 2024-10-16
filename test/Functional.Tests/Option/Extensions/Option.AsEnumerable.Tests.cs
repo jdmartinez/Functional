@@ -6,7 +6,9 @@ public partial class OptionExtensionsTests
 {
     private class TestClass
     {
-        public override string ToString() => "Test class";
+        public string Id { get; set; } = "Test class";
+
+        public override string ToString() => Id;
     }
 
     [Fact]

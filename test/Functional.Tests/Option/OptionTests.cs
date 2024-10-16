@@ -1,12 +1,16 @@
-﻿using FluentAssertions;
+﻿using System.Configuration;
+using FluentAssertions;
 
 namespace Functional.Tests;
 
-public class OptionTests
+public partial class OptionTests
 {
+    [Serializable]
     private class TestClass
     {
-        public override string ToString() => "Test class";
+        public string Id { get; set; } = "Test class";
+
+        public override string ToString() => Id;
     }
 
     [Fact]
