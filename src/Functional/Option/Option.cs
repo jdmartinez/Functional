@@ -31,8 +31,11 @@ public readonly partial record struct Option<T>
 
     public static implicit operator Option<T>(Option _) => None;
 
-    public static implicit operator Option<T>(T value)
-        => value is Option<T> opt
-            ? opt
-            : Some(value);
+    public static implicit operator Option<T>(T? value)
+        => value switch
+        {
+            Option<T> opt => opt,
+            not null => Some(value),
+            _ => None
+        };
 }
