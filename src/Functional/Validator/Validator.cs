@@ -1,5 +1,4 @@
-﻿using System.IO.Compression;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Functional;
 
@@ -27,12 +26,14 @@ public sealed class Validator<T>
         return this;
     }
 
-    public Result<T> Validate()
+    public ValidationResult<T> Validate()
     {
-        var failureRule = _rules.FirstOrDefault(r => !r.Validate(Value));
+        var failureRules = _rules
+            .Where(r => !r.Validate(Value))
+            .Select(e => e.Error);
 
-        if (failureRule == null) return Result.Success(Value);
-
-        return failureRule.Error;
+        return failureRules.Any()
+            ? ValidationResult.Failure(Value, failureRules)
+            : Value;
     }
 }
