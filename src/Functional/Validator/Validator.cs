@@ -20,7 +20,7 @@ public sealed class Validator<T>
     public Validator<T> Ensure<TProp>(Expression<Func<T, TProp>> projection, Func<TProp, bool> predicate, string errorMessage)
         => Ensure<TProp>(new ValidationRule<T, TProp>(projection, predicate, errorMessage));
 
-    public Validator<T> Ensure<TProp>(IValidationRule<T> rule)
+    private Validator<T> Ensure<TProp>(IValidationRule<T> rule)
     {
         _rules.Add(rule);
         return this;
@@ -33,7 +33,7 @@ public sealed class Validator<T>
             .Select(e => e.Error);
 
         return failureRules.Any()
-            ? ValidationResult.Failure(Value, failureRules)
+            ? ValidationResult<T>.Failure(Value, failureRules)
             : Value;
     }
 }
