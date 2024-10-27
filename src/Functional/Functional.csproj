@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Functional.CSharp.Types</PackageId>
-    <Version>2024.10.2</Version>
+    <Version>2024.10.3</Version>
     <Authors>Juan Diego Martínez</Authors>
     <PackageDescription>C# types for functional development</PackageDescription>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
