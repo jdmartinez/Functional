@@ -18,7 +18,7 @@ public record ValidationResult<T>
         _errors.AddRange(errors.Where(e => e != Error.None));
     }
 
-    public static ValidationResult<T> Success(T value) => new(value);
+    public static ValidationResult<T> Success(T value) => new(value, []);
 
     public static ValidationResult<T> Failure(T value, IEnumerable<Error> errors)
     {
