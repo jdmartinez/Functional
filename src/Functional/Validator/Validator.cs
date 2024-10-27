@@ -1,5 +1,4 @@
-﻿using System.IO.Compression;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Functional;
 
@@ -21,18 +20,20 @@ public sealed class Validator<T>
     public Validator<T> Ensure<TProp>(Expression<Func<T, TProp>> projection, Func<TProp, bool> predicate, string errorMessage)
         => Ensure<TProp>(new ValidationRule<T, TProp>(projection, predicate, errorMessage));
 
-    public Validator<T> Ensure<TProp>(IValidationRule<T> rule)
+    private Validator<T> Ensure<TProp>(IValidationRule<T> rule)
     {
         _rules.Add(rule);
         return this;
     }
 
-    public Result<T> Validate()
+    public ValidationResult<T> Validate()
     {
-        var failureRule = _rules.FirstOrDefault(r => !r.Validate(Value));
+        var failureRules = _rules
+            .Where(r => !r.Validate(Value))
+            .Select(e => e.Error);
 
-        if (failureRule == null) return Result.Success(Value);
-
-        return failureRule.Error;
+        return failureRules.Any()
+            ? ValidationResult<T>.Failure(Value, failureRules)
+            : Value;
     }
 }

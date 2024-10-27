@@ -36,8 +36,8 @@ public class ValidatorTests
             .Validate();
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Code.Should().Be(nameof(TestClass.Value));
-        result.Error.Message.Should().Be("Value must be greater than 0");
+        result.Errors.Should().ContainSingle();
+        result.Errors[0].Message.Should().Be("Value must be greater than 0");
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public class ValidatorTests
             .Validate();
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Code.Should().Be(nameof(TestClass.Value));
-        result.Error.Message.Should().Be("Value must be lower than 10");
+        result.Errors.Should().ContainSingle();
+        result.Errors[0].Message.Should().Be("Value must be lower than 10");
     }
 }
