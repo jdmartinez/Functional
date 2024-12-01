@@ -1,4 +1,3 @@
-using System;
 using FluentAssertions;
 
 namespace Functional.Tests;
