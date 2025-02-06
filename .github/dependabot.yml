@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: nuget
-    directory: "/" # Location of package manifests
+    directory: "/src/Functional/" # Location of package manifests
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
