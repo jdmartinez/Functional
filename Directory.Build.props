@@ -8,15 +8,17 @@
     <Authors>Juan Diego Martínez</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/jdmartinez/Functional</PackageProjectUrl>
-    <PackageReadmeFile>$(MSBuildThisFileDirectory)README.md</PackageReadmeFile>
+    <!-- The package expects the README file name as it appears inside the nupkg -->
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/jdmartinez/Functional</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Include repository README at package root as README.md -->
     <None Include="$(MSBuildThisFileDirectory)README.md">
       <Pack>true</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
