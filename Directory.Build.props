@@ -4,9 +4,14 @@
     <Authors>Juan Diego Martínez</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/jdmartinez/Functional</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/jdmartinez/Functional</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <!-- GitVersion Integration -->
   <Target Name="InitGitVersion" BeforeTargets="BeforeBuild">
