@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Funcional.Types.EntityFrameworkCore</PackageId>
-    <PackageDescription>Entity Framework Core Option/Result extensions for Funcional.Types</PackageDescription>
+    <PackageId>Functional.Types.EntityFrameworkCore</PackageId>
+    <PackageDescription>Entity Framework Core Option/Result extensions for Functional.Types</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
