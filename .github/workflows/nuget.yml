@@ -8,6 +8,10 @@ on:
       tag:
         description: 'Optional tag to use when dispatching manually (format YYYY.MM.PATCH)'
         required: false
+ 
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   publish:
@@ -123,7 +127,6 @@ jobs:
       uses: softprops/action-gh-release@v1
       if: github.event_name == 'release'
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
         files: ./nupkg/*.nupkg
         body: ${{ steps.notes.outputs.changelog }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
