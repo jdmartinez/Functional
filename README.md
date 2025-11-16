@@ -1,21 +1,21 @@
-# Funcional.Types
+# Functional.Types
 
 Functional primitives and extensions for C#.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![Build](https://github.com/jdmartinez/Functional/actions/workflows/dotnet.yml/badge.svg) [![Code Quality](https://github.com/jdmartinez/Functional/actions/workflows/code-quality.yml/badge.svg)](https://github.com/jdmartinez/Functional/actions/workflows/code-quality.yml)
 
-`Funcional.Types` (NuGet: `Funcional.Types`) is a lightweight library of functional primitives and helpers for .NET:
+`Functional.Types` (NuGet: `Functional.Types`) is a lightweight library of functional primitives and helpers for .NET:
 
 - `Option<T>` — optional values and combinators.
 - `Result<T, E>` — explicit success/failure flow.
 - `Unit` — a single value type representing absence of data.
 - `Error` and `Validator` — small validation helpers.
 
-In addition to the core library, this repository contains a separate package for Entity Framework Core integration: `Funcional.Types.EntityFrameworkCore`.
+In addition to the core library, this repository contains a separate package for Entity Framework Core integration: `Functional.Types.EntityFrameworkCore`.
 
 ## Contents
 
-- [Funcional.Types](#funcionaltypes)
+- [Functional.Types](#functionaltypes)
   - [Contents](#contents)
   - [Overview](#overview)
   - [Packages](#packages)
@@ -29,7 +29,7 @@ In addition to the core library, this repository contains a separate package for
 
 ## Overview
 
-`Funcional.Types` aims to provide a small, well-tested set of types and extensions to make functional-style code straightforward in C#, while keeping the core package free of heavier dependencies. Integrations (for example EF Core) are distributed as optional, separate packages to avoid unnecessary transitive dependencies.
+`Functional.Types` aims to provide a small, well-tested set of types and extensions to make functional-style code straightforward in C#, while keeping the core package free of heavier dependencies. Integrations (for example EF Core) are distributed as optional, separate packages to avoid unnecessary transitive dependencies.
 
 Principles:
 
@@ -39,8 +39,8 @@ Principles:
 
 ## Packages
 
-- `Funcional.Types` — core primitives and helpers.
-- `Funcional.Types.EntityFrameworkCore` — EF Core `IQueryable` extensions and async/sync helpers (for example `FirstOrNoneAsync`, `SingleOrNoneAsync`), which depends on `Funcional.Types`.
+- `Functional.Types` — core primitives and helpers.
+- `Functional.Types.EntityFrameworkCore` — EF Core `IQueryable` extensions and async/sync helpers (for example `FirstOrNoneAsync`, `SingleOrNoneAsync`), which depends on `Functional.Types`.
 
 Package IDs published to NuGet follow the project names under `/src`.
 
@@ -49,13 +49,13 @@ Package IDs published to NuGet follow the project names under `/src`.
 Install the core package using `dotnet`:
 
 ```bash
-dotnet add package Funcional.Types
+dotnet add package Functional.Types
 ```
 
 For EF Core integration:
 
 ```bash
-dotnet add package Funcional.Types.EntityFrameworkCore
+dotnet add package Functional.Types.EntityFrameworkCore
 ```
 
 Both packages target .NET 10 (`net10.0`).
@@ -65,7 +65,7 @@ Both packages target .NET 10 (`net10.0`).
 Option handling:
 
 ```csharp
-using Funcional.Types;
+using Functional.Types;
 
 Option<int> maybe = Option.Some(3);
 
@@ -78,7 +78,7 @@ int doubled = maybe.Match(
 Result usage:
 
 ```csharp
-using Funcional.Types;
+using Functional.Types;
 
 Result<int, string> r = Result.Ok<int, string>(42);
 
@@ -91,14 +91,14 @@ r.Match(
 EF Core example (async):
 
 ```csharp
-using Funcional.Types.EntityFrameworkCore.Option.Extensions.IQueryable;
+using Functional.Types.EntityFrameworkCore.Option.Extensions.IQueryable;
 
 var maybeUser = await dbContext.Users.Where(u => u.Id == id).FirstOrNoneAsync();
 ```
 
 ## Migration notes
 
-- EF Core extensions were extracted from the core package. If you previously relied on EF extensions being present in the main package, add a dependency on `Funcional.Types.EntityFrameworkCore`.
+- EF Core extensions were extracted from the core package. If you previously relied on EF extensions being present in the main package, add a dependency on `Functional.Types.EntityFrameworkCore`.
 
 ## Build & tests
 

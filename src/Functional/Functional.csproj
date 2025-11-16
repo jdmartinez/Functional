@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Funcional.Types</PackageId>
+    <PackageId>Functional.Types</PackageId>
     <PackageDescription>Functional types for .NET: Option, Result, Unit, Validator, Error</PackageDescription>
   </PropertyGroup>
 
