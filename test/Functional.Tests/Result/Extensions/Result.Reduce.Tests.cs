@@ -1,4 +1,5 @@
-using FluentAssertions;
+using Shouldly;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -14,7 +15,7 @@ public partial class ResultExtensionsTests
         var value = result.Reduce(0);
 
         // Assert
-        value.Should().Be(1);
+        value.ShouldBe(1);
     }
 
     [Fact]
@@ -27,7 +28,7 @@ public partial class ResultExtensionsTests
         var value = result.Reduce(0);
 
         // Assert
-        value.Should().Be(0);
+        value.ShouldBe(0);
     }
 
     [Fact]
@@ -40,7 +41,7 @@ public partial class ResultExtensionsTests
         var value = result.Reduce(() => 2);
 
         // Assert
-        value.Should().Be(1);
+        value.ShouldBe(1);
     }
 
     [Fact]
@@ -53,6 +54,6 @@ public partial class ResultExtensionsTests
         var value = result.Reduce(() => 0);
 
         // Assert
-        value.Should().Be(0);
+        value.ShouldBe(0);
     }
 }

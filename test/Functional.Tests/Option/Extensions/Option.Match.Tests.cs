@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace Functional.Tests;
 
@@ -12,7 +12,7 @@ public partial class OptionExtensionsTests
 
         var result = option.Match(value => value.ToString(), () => "none");
 
-        result.Should().Be(testClass.ToString());
+        result.ShouldBe(testClass.ToString());
     }
 
     [Fact]
@@ -22,6 +22,6 @@ public partial class OptionExtensionsTests
 
         var result = option.Match(value => value.ToString(), () => "none");
 
-        result.Should().Be("none");
+        result.ShouldBe("none");
     }
 }

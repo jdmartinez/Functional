@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -16,8 +16,8 @@ public partial class OptionExtensionsTests
 
         var result = options.Choose();
 
-        result.Should().HaveCount(1);
-        result.First().Should().Be(test);
+        result.Count().ShouldBe(1);
+        result.First().ShouldBe(test);
     }
 
     [Fact]
@@ -27,6 +27,6 @@ public partial class OptionExtensionsTests
 
         var result = options.Choose();
 
-        result.Should().BeEmpty();
+        result.ShouldBeEmpty();
     }
 }

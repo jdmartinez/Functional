@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace Functional.Tests;
 
@@ -14,9 +14,9 @@ public partial class ResultExtensionsTests
         var bindResult = await resultTask.Bind(ToStringAsync);
 
         // Assert
-        bindResult.Should().BeOfType<Result<string>>();
-        bindResult.IsSuccess.Should().BeTrue();
-        bindResult.Value.Should().Be("1");
+            bindResult.ShouldBeOfType<Result<string>>();
+        bindResult.IsSuccess.ShouldBeTrue();
+            bindResult.Value.ShouldBe("1");
     }
 
     [Fact]
@@ -30,9 +30,9 @@ public partial class ResultExtensionsTests
         var bindResult = await resultTask.Bind(ToStringAsync);
 
         // Assert
-        bindResult.Should().BeOfType<Result<string>>();
-        bindResult.IsFailure.Should().BeTrue();
-        bindResult.Error.Should().Be(error);
+            bindResult.ShouldBeOfType<Result<string>>();
+        bindResult.IsFailure.ShouldBeTrue();
+            bindResult.Error.ShouldBe(error);
     }
 
     private static Task<Result<string>> ToStringAsync(int value) => Result.Success(value.ToString()).AsTask();

@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -14,8 +14,8 @@ public partial class OptionExtensionsTests
 
         var option = query.FirstOrNone();
 
-        option.IsSome.Should().BeTrue();
-        option.Value.Should().BeEquivalentTo(expected);
+        option.IsSome.ShouldBeTrue();
+        option.Value.ShouldBe(expected);
     }
 
     [Fact]
@@ -28,8 +28,8 @@ public partial class OptionExtensionsTests
 
         var option = query.FirstOrNone(item => item.Id == "1");
 
-        option.IsSome.Should().BeTrue();
-        option.Value.Should().BeEquivalentTo(expected);
+        option.IsSome.ShouldBeTrue();
+        option.Value.ShouldBe(expected);
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public partial class OptionExtensionsTests
 
         var option = query.FirstOrNone();
 
-        option.IsSome.Should().BeFalse();
+        option.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -53,6 +53,6 @@ public partial class OptionExtensionsTests
 
         var option = query.FirstOrNone(item => item.Id == "100");
 
-        option.IsSome.Should().BeFalse();
+        option.IsSome.ShouldBeFalse();
     }
 }

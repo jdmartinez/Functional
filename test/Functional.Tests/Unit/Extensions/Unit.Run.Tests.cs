@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -12,8 +12,8 @@ public partial class UnitExtensionsTests
 
         var unit = action.Run();
 
-        unit.Should().Be(Unit.Default);
-        test.Should().Be("test");
+        unit.ShouldBe(Unit.Default);
+        test.ShouldBe("test");
     }
 
     [Fact]
@@ -24,8 +24,8 @@ public partial class UnitExtensionsTests
 
         var unit = action.Run("test");
 
-        unit.Should().Be(Unit.Default);
-        arg.Should().Be("test");
+        unit.ShouldBe(Unit.Default);
+        arg.ShouldBe("test");
     }
 
     [Fact]
@@ -37,8 +37,8 @@ public partial class UnitExtensionsTests
 
         var unit = action.Run(arg1, arg2);
 
-        unit.Should().Be(Unit.Default);
-        arg2.Should().Be(arg1);
+        unit.ShouldBe(Unit.Default);
+        arg2.ShouldBe(arg1);
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public partial class UnitExtensionsTests
 
         var unit = action.Run(arg1, arg2, arg3);
 
-        unit.Should().Be(Unit.Default);
-        arg3.Should().Be($"{arg1}+{arg2}");
+        unit.ShouldBe(Unit.Default);
+        arg3.ShouldBe($"{arg1}+{arg2}");
     }
 }

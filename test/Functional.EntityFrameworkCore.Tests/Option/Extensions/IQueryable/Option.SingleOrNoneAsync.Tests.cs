@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -11,7 +11,7 @@ public partial class OptionExtensionsTests
 
         var result = await context.People.SingleOrNoneAsync();
 
-        result.IsSome.Should().BeFalse();
+        result.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -25,8 +25,8 @@ public partial class OptionExtensionsTests
 
         var result = await context.People.SingleOrNoneAsync();
 
-        result.IsSome.Should().BeTrue();
-        result.Value.Id.Should().Be(person.Id);
+        result.IsSome.ShouldBeTrue();
+        result.Value.Id.ShouldBe(person.Id);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public partial class OptionExtensionsTests
 
         var result = await context.People.SingleOrNoneAsync(p => p.Id > 10);
 
-        result.IsSome.Should().BeFalse();
+        result.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -56,8 +56,8 @@ public partial class OptionExtensionsTests
 
         var result = await context.People.SingleOrNoneAsync(p => p.Id == 1);
 
-        result.IsSome.Should().BeTrue();
-        result.Value.Id.Should().Be(1);
+        result.IsSome.ShouldBeTrue();
+        result.Value.Id.ShouldBe(1);
     }
 
 }

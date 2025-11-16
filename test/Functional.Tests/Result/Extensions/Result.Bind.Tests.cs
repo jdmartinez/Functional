@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -14,9 +14,9 @@ public partial class ResultExtensionsTests
         var bindResult = result.Bind(x => Result.Success(x + 1));
 
         // Assert
-        bindResult.Should().BeOfType<Result<int>>();
-        bindResult.IsSuccess.Should().BeTrue();
-        bindResult.Value.Should().Be(2);
+        bindResult.ShouldBeOfType<Result<int>>();
+        bindResult.IsSuccess.ShouldBeTrue();
+        bindResult.Value.ShouldBe(2);
     }
 
     [Fact]
@@ -29,8 +29,8 @@ public partial class ResultExtensionsTests
         var bindResult = result.Bind(x => Result.Success(x + 1));
 
         // Assert
-        bindResult.Should().BeOfType<Result<int>>();
-        bindResult.IsFailure.Should().BeTrue();
-        bindResult.Error.Should().NotBeNull();
+        bindResult.ShouldBeOfType<Result<int>>();
+        bindResult.IsFailure.ShouldBeTrue();
+        bindResult.Error.ShouldNotBe(default(Error));
     }
 }

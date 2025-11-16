@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace Functional.Tests;
 
@@ -15,8 +15,8 @@ public partial class ResultExtensionsTests
         var result = await resultTask.Then(x => Task.FromResult(Result.Success(x * 2)));
 
         // Assert
-        result.IsSuccess.Should().BeTrue();
-        result.Value.Should().Be(10);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.ShouldBe(10);
     }
 
     [Fact]
@@ -31,8 +31,8 @@ public partial class ResultExtensionsTests
         var result = await resultTask.Then(x => Task.FromResult(Result.Success(x * 2)));
 
         // Assert
-        result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(error);
+        result.IsFailure.ShouldBeTrue();
+        result.Error.ShouldBe(error);
     }
 
     [Fact]
@@ -46,8 +46,8 @@ public partial class ResultExtensionsTests
         var result = await resultTask.Then(x => x * 2);
 
         // Assert
-        result.IsSuccess.Should().BeTrue();
-        result.Value.Should().Be(10);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.ShouldBe(10);
     }
 
     [Fact]
@@ -60,8 +60,8 @@ public partial class ResultExtensionsTests
         var result = initialResult.Then(x => Result.Success(x * 2));
 
         // Assert
-        result.IsSuccess.Should().BeTrue();
-        result.Value.Should().Be(10);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.ShouldBe(10);
     }
 
     [Fact]
@@ -75,8 +75,8 @@ public partial class ResultExtensionsTests
         var result = await resultTask.Then(x => Task.FromResult(Result.Success(x * 2)));
 
         // Assert
-        result.IsSuccess.Should().BeTrue();
-        result.Value.Should().Be(10);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.ShouldBe(10);
     }
 
     [Fact]
@@ -91,8 +91,8 @@ public partial class ResultExtensionsTests
         var result = await resultTask.Then(x => Task.FromResult(Result.Success(x * 2)));
 
         // Assert
-        result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(error);
+        result.IsFailure.ShouldBeTrue();
+        result.Error.ShouldBe(error);
     }
 
     [Fact]
@@ -107,6 +107,6 @@ public partial class ResultExtensionsTests
         await resultTask.Then(x => { actionExecuted = true; return Task.CompletedTask; });
 
         // Assert
-        actionExecuted.Should().BeTrue();
+        actionExecuted.ShouldBeTrue();
     }
 }
