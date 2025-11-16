@@ -8,7 +8,7 @@ on:
       tag:
         description: 'Optional tag to use when dispatching manually (format YYYY.MM.PATCH)'
         required: false
- 
+
 permissions:
   contents: write
   packages: write
