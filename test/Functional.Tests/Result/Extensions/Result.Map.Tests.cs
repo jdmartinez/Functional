@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -14,9 +14,9 @@ public partial class ResultExtensionsTests
         var mapResult = result.Map(x => x + 1);
 
         // Assert
-        mapResult.Should().BeOfType<Result<int>>();
-        mapResult.IsSuccess.Should().BeTrue();
-        mapResult.Value.Should().Be(2);
+        mapResult.ShouldBeOfType<Result<int>>();
+        mapResult.IsSuccess.ShouldBeTrue();
+        mapResult.Value.ShouldBe(2);
     }
 
     [Fact]
@@ -30,8 +30,8 @@ public partial class ResultExtensionsTests
         var mapResult = result.Map(x => x + 1);
 
         // Assert
-        mapResult.Should().BeOfType<Result<int>>();
-        mapResult.IsFailure.Should().BeTrue();
-        mapResult.Error.Should().Be(error);
+        mapResult.ShouldBeOfType<Result<int>>();
+        mapResult.IsFailure.ShouldBeTrue();
+        mapResult.Error.ShouldBe(error);
     }
 }

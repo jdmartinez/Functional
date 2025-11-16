@@ -1,5 +1,9 @@
 <Project>
   <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <langversion>latest</langversion>
     <!-- Información del autor -->
     <Authors>Juan Diego Martínez</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

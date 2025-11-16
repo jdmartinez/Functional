@@ -1,9 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <PackageId>Funcional.Types</PackageId>
     <PackageDescription>Functional types for .NET: Option, Result, Unit, Validator, Error</PackageDescription>
   </PropertyGroup>

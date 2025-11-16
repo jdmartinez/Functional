@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace Functional.Tests;
 
@@ -19,9 +19,9 @@ public partial class OptionExtensionsTests
 
         var enumerable = opt.AsEnumerable();
 
-        enumerable.Should().BeAssignableTo<IEnumerable<TestClass>>();
-        enumerable.Should().NotBeEmpty();
-        enumerable.First().Should().Be(test);
+        enumerable.ShouldBeAssignableTo<IEnumerable<TestClass>>();
+        enumerable.ShouldNotBeEmpty();
+        enumerable.First().ShouldBe(test);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public partial class OptionExtensionsTests
         var opt = Option<TestClass>.None;
         var enumerable = opt.AsEnumerable();
 
-        enumerable.Should().BeAssignableTo<IEnumerable<TestClass>>();
-        enumerable.Should().BeEmpty();
+        enumerable.ShouldBeAssignableTo<IEnumerable<TestClass>>();
+        enumerable.ShouldBeEmpty();
     }
 }

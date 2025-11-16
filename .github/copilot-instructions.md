@@ -130,7 +130,7 @@ If you are not sure, do not guess, just tell that you don't know or ask clarifyi
 ### Testing
 
 - We use NUnit for tests.
-- We use FluentAssertions for assertions.
+ - We use Shouldly for assertions.
 - Do not emit "Act", "Arrange" or "Assert" comments.
 - Use Moq for mocking in tests.
 - Copy existing style in nearby files for test method names and capitalization.

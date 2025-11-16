@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace Functional.Tests;
 
@@ -12,7 +12,7 @@ public partial class OptionExtensionsTests
         var option = Option<TestClass>.Some(test);
         var result = option.Or(fallback);
 
-        result.Value.Should().Be(test);
+        result.Value.ShouldBe(test);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public partial class OptionExtensionsTests
         var option = Option<TestClass>.Some(default!);
         var result = option.Or(fallback);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public partial class OptionExtensionsTests
         var option = Option<TestClass>.Some(test);
         var result = option.Or(() => new TestClass());
 
-        result.Value.Should().Be(test);
+        result.Value.ShouldBe(test);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public partial class OptionExtensionsTests
        var option = Option<TestClass>.Some(default!);
         var result = option.Or(() => new TestClass());
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public partial class OptionExtensionsTests
         var option = Option<TestClass>.Some(test);
         var result = option.Or(() => Option<TestClass>.Some(new TestClass()));
 
-        result.Value.Should().Be(test);
+        result.Value.ShouldBe(test);
     }
 
     [Fact]
@@ -60,6 +60,6 @@ public partial class OptionExtensionsTests
         var option = Option<TestClass>.Some(default!);
         var result = option.Or(() => Option<TestClass>.Some(new TestClass()));
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 }

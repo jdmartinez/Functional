@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -11,8 +11,8 @@ public partial class ResultExtensionsTests
         var result = await Result.Try(() => Task.FromResult(1));
 
         // Assert
-        result.IsSuccess.Should().BeTrue();
-        result.Value.Should().Be(1);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.ShouldBe(1);
     }
 
     [Fact]
@@ -22,6 +22,6 @@ public partial class ResultExtensionsTests
         var result = await Result.Try<int>(() => throw new Exception());
 
         // Assert
-        result.IsFailure.Should().BeTrue();
+        result.IsFailure.ShouldBeTrue();
     }
 }

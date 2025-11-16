@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -16,8 +16,8 @@ public partial class OptionExtensionsTests
         var result = option.SelectMany(selector, projector);
 
         // Assert
-        result.IsSome.Should().BeTrue();
-        result.Value.Should().Be(50);
+        result.IsSome.ShouldBeTrue();
+        result.Value.ShouldBe(50);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public partial class OptionExtensionsTests
         var result = option.SelectMany(selector, projector);
 
         // Assert
-        result.IsSome.Should().BeFalse();
+        result.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public partial class OptionExtensionsTests
         var result = option.SelectMany(selector, projector);
 
         // Assert
-        result.IsSome.Should().BeFalse();
+        result.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -61,8 +61,8 @@ public partial class OptionExtensionsTests
         var result = option.SelectMany(selector);
 
         // Assert
-        result.IsSome.Should().BeTrue();
-        result.Value.Should().Be(10);
+        result.IsSome.ShouldBeTrue();
+        result.Value.ShouldBe(10);
     }
 
     [Fact]
@@ -76,7 +76,7 @@ public partial class OptionExtensionsTests
         var result = option.SelectMany(selector);
 
         // Assert
-        result.IsSome.Should().BeFalse();
+        result.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -90,6 +90,6 @@ public partial class OptionExtensionsTests
         var result = option.SelectMany(selector);
 
         // Assert
-        result.IsSome.Should().BeFalse();
+        result.IsSome.ShouldBeFalse();
     }
 }

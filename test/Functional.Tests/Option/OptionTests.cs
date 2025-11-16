@@ -1,5 +1,5 @@
 ﻿using System.Configuration;
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -18,7 +18,7 @@ public partial class OptionTests
     {
         var opt = Option<TestClass>.Some(null!);
 
-        opt.IsSome.Should().BeFalse();
+        opt.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public partial class OptionTests
     {
         var opt = (Option<TestClass>)null!;
 
-        opt.IsSome.Should().BeFalse();
+        opt.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public partial class OptionTests
     {
         var opt = Option<TestClass>.None;
 
-        opt.IsSome.Should().BeFalse();
+        opt.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public partial class OptionTests
         var nullOpt = (Option<TestClass>)null!;
         var opt = Option<TestClass>.None;
 
-        opt.Should().Be(nullOpt);
+        opt.ShouldBe(nullOpt);
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public partial class OptionTests
         var nullOpt = (Option<TestClass>)null!;
         var action = () => { var test = nullOpt.Value; };
 
-        action.Should().Throw<InvalidOperationException>();
+        Should.Throw<InvalidOperationException>(action);
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public partial class OptionTests
         var nullOpt = Option<TestClass>.None;
         var action = () => { var test = nullOpt.Value; };
 
-        action.Should().Throw<InvalidOperationException>();
+        Should.Throw<InvalidOperationException>(action);
     }
 
     [Fact]
@@ -70,8 +70,8 @@ public partial class OptionTests
         var test = new TestClass();
         Option<TestClass> opt = test;
 
-        opt.IsSome.Should().BeTrue();
-        opt.Value.Should().Be(test);
+        opt.IsSome.ShouldBeTrue();
+        opt.Value.ShouldBe(test);
     }
 
     [Fact]
@@ -80,22 +80,22 @@ public partial class OptionTests
         Option<TestClass> opt = new TestClass();
         var str = opt.ToString();
 
-        str.Should().Be("Test class");
+        str.ShouldBe("Test class");
     }
 
     [Fact]
     public void None_option_has_no_value()
     {
-        Option<string>.None.IsSome.Should().BeFalse();
-        Option<int>.None.IsSome.Should().BeFalse();
+        Option<string>.None.IsSome.ShouldBeFalse();
+        Option<int>.None.IsSome.ShouldBeFalse();
     }
 
     [Fact]
     public void None_option_tuple_has_no_value()
     {
-        Option<(Array, Exception)>.None.IsSome.Should().BeFalse();
-        Option<(DateTime, bool, char)>.None.IsSome.Should().BeFalse();
-        Option<(string, TimeSpan)>.None.IsSome.Should().BeFalse();
+        Option<(Array, Exception)>.None.IsSome.ShouldBeFalse();
+        Option<(DateTime, bool, char)>.None.IsSome.ShouldBeFalse();
+        Option<(string, TimeSpan)>.None.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -103,7 +103,7 @@ public partial class OptionTests
     {
         Option<int> opt = Option.None;
 
-        opt.IsSome.Should().BeFalse();
+        opt.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -113,8 +113,8 @@ public partial class OptionTests
         var genericOpt = Option<string>.Some("test");
         var otherOpt = Option<string>.Some("other");
 
-        nonGenericOpt.Should().Be(genericOpt);
-        nonGenericOpt.Should().NotBe(otherOpt);
+        nonGenericOpt.ShouldBe(genericOpt);
+        nonGenericOpt.ShouldNotBe(otherOpt);
     }
 
     [Fact]
@@ -122,7 +122,7 @@ public partial class OptionTests
     {
         var option = Option<TestClass>.None;
 
-        option.GetHashCode().Should().Be(0);
+        option.GetHashCode().ShouldBe(0);
     }
 
     [Fact]
@@ -130,6 +130,6 @@ public partial class OptionTests
     {
         var option = Option.Some(new TestClass());
 
-        option.GetHashCode().Should().NotBe(0);
+        option.GetHashCode().ShouldNotBe(0);
     }
 }

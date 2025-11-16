@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace Functional.Tests;
 
@@ -10,7 +10,7 @@ public partial class OptionExtensionsTests
         var test = default(TestClass);
         var options = test.ToOption();
 
-        options.IsSome.Should().BeFalse();
+            options.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -19,6 +19,6 @@ public partial class OptionExtensionsTests
         var test = new TestClass();
         var options = test.ToOption();
 
-        options.IsSome.Should().BeTrue();
+            options.IsSome.ShouldBeTrue();
     }
 }

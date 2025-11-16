@@ -1,5 +1,5 @@
 using System;
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -10,6 +10,6 @@ public class TaskExtensionsTests
     {
         var task = 7.AsTask();
 
-        task.Should().BeAssignableTo<Task>();
+        task.ShouldBeAssignableTo<Task>();
     }
 }

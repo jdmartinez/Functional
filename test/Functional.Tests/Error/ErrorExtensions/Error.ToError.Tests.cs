@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -14,7 +14,7 @@ public partial class ErrorExtensionsTests
         var error = exception.ToError();
 
         // Assert
-        error.Code.Should().Be(exception.GetType().Name);
-        error.Message.Should().Be(exception.Message);
+        error.Code.ShouldBe(exception.GetType().Name);
+        error.Message.ShouldBe(exception.Message);
     }
 }
