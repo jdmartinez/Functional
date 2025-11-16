@@ -10,7 +10,7 @@ public partial class OptionExtensionsTests
         var query = Enumerable.Range(0, 1)
             .Select(v => new TestClass { Id = v.ToString() })
             .AsQueryable();
-        
+
         var expected = query.SingleOrDefault();
 
         var option = query.SingleOrNone();
