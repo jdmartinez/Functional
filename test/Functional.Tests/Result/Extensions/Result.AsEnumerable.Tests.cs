@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -14,8 +14,8 @@ public partial class ResultExtensionsTests
         var enumerable = result.AsEnumerable();
 
         // Assert
-        enumerable.Should().NotBeEmpty();
-        enumerable.Should().Contain(1);
+           enumerable.ShouldNotBeEmpty();
+           enumerable.ShouldContain(1);
     }
 
     [Fact]
@@ -28,6 +28,6 @@ public partial class ResultExtensionsTests
         var enumerable = result.AsEnumerable();
 
         // Assert
-        enumerable.Should().BeEmpty();
+           enumerable.ShouldBeEmpty();
     }
 }

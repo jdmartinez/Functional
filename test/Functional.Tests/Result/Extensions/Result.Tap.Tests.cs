@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -14,7 +14,7 @@ public partial class ResultExtensionsTests
         var actual = result.Tap(() => { });
 
         // Assert
-        actual.IsSuccess.Should().BeTrue();
+        actual.IsSuccess.ShouldBeTrue();
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public partial class ResultExtensionsTests
         var actual = result.Tap(() => { });
 
         // Assert
-        actual.IsFailure.Should().BeTrue();
+        actual.IsFailure.ShouldBeTrue();
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public partial class ResultExtensionsTests
         var actual = result.Tap(v => { });
 
         // Assert
-        actual.IsSuccess.Should().BeTrue();
+        actual.IsSuccess.ShouldBeTrue();
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public partial class ResultExtensionsTests
         var actual = result.Tap(value => { });
 
         // Assert
-        actual.IsFailure.Should().BeTrue();
+        actual.IsFailure.ShouldBeTrue();
     }
 
     [Fact]
@@ -66,7 +66,7 @@ public partial class ResultExtensionsTests
         var actual = await result.Tap(() => Task.CompletedTask);
 
         // Assert
-        actual.IsSuccess.Should().BeTrue();
+        actual.IsSuccess.ShouldBeTrue();
     }
 
     [Fact]
@@ -77,7 +77,7 @@ public partial class ResultExtensionsTests
         var actual = await result.Tap(() => Task.CompletedTask);
 
         // Assert
-        actual.IsSuccess.Should().BeFalse();
+        actual.IsSuccess.ShouldBeFalse();
     }
 
     [Fact]
@@ -90,7 +90,7 @@ public partial class ResultExtensionsTests
         var actual = await result.Tap(() => Task.CompletedTask);
 
         // Assert
-        actual.IsSuccess.Should().BeTrue();
+        actual.IsSuccess.ShouldBeTrue();
     }
 
     [Fact]
@@ -103,7 +103,7 @@ public partial class ResultExtensionsTests
         var actual = await result.Tap(() => Task.CompletedTask);
 
         // Assert
-        actual.IsSuccess.Should().BeFalse();
+        actual.IsSuccess.ShouldBeFalse();
     }
 
     [Fact]
@@ -116,7 +116,7 @@ public partial class ResultExtensionsTests
         var actual = await result.Tap(value => Task.CompletedTask);
 
         // Assert
-        actual.IsSuccess.Should().BeTrue();
+        actual.IsSuccess.ShouldBeTrue();
     }
 
     [Fact]
@@ -129,6 +129,6 @@ public partial class ResultExtensionsTests
         var actual = await result.Tap(value => Task.CompletedTask);
 
         // Assert
-        actual.IsSuccess.Should().BeFalse();
+        actual.IsSuccess.ShouldBeFalse();
     }
 }

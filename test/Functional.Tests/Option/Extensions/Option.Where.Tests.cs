@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -11,8 +11,8 @@ public partial class OptionExtensionsTests
 
         var result = opt.Where(v => v == 3);
 
-        result.IsSome.Should().BeTrue();
-        result.Should().Be(opt);
+        result.IsSome.ShouldBeTrue();
+        result.ShouldBe(opt);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public partial class OptionExtensionsTests
 
         var result = opt.Where(v => v > 3);
 
-        result.IsSome.Should().BeFalse();
+          result.IsSome.ShouldBeFalse();
     }
 
     [Fact]
@@ -32,6 +32,6 @@ public partial class OptionExtensionsTests
 
         var result = opt.Where(v => v > 3);
 
-        result.IsSome.Should().BeFalse();
+          result.IsSome.ShouldBeFalse();
     }
 }

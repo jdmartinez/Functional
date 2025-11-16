@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -11,8 +11,8 @@ public class ErrorTests
         var error = new Error();
 
         // Assert
-        error.Code.Should().BeEmpty();
-        error.Message.Should().BeEmpty();
+        error.Code.ShouldBe(string.Empty);
+        error.Message.ShouldBe(string.Empty);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class ErrorTests
         var error = new Error("code", "message");
 
         // Assert
-        error.Code.Should().Be("code");
+        error.Code.ShouldBe("code");
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class ErrorTests
         var error = new Error("code", "message");
 
         // Assert
-        error.Message.Should().Be("message");
+        error.Message.ShouldBe("message");
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class ErrorTests
         var result = error.ToString();
 
         // Assert
-        result.Should().Be(error.Message);
+        result.ShouldBe(error.Message);
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class ErrorTests
     {
         var error = Error.None;
 
-        error.Code.Should().BeEmpty();
-        error.Message.Should().BeEmpty();
+        error.Code.ShouldBe(string.Empty);
+        error.Message.ShouldBe(string.Empty);
     }
 }

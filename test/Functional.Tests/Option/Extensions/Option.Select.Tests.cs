@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace Functional.Tests;
 
@@ -13,9 +13,9 @@ public partial class OptionExtensionsTests
 
         var result = option.Select(selector);
 
-        result.Should().BeOfType<Option<string>>();
-        result.IsSome.Should().BeTrue();
-        result.Value.Should().Be(testValue);
+        result.ShouldBeOfType<Option<string>>();
+        result.IsSome.ShouldBeTrue();
+            result.Value.ShouldBe(testValue);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public partial class OptionExtensionsTests
 
         var result = option.Select(selector);
 
-        result.Should().BeOfType<Option<string>>();
-        result.IsSome.Should().BeFalse();
+        result.ShouldBeOfType<Option<string>>();
+        result.IsSome.ShouldBeFalse();
     }
 }

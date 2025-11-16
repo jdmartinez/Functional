@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using Xunit.Sdk;
 
 namespace Functional.Tests;
@@ -11,7 +11,7 @@ public partial class OptionExtensionsTests
         var option = Option<TestClass>.Some(new TestClass());
         var result = option.ToResult(new Error());
 
-        result.IsSuccess.Should().BeTrue();
+        result.IsSuccess.ShouldBeTrue();
     }
 
     [Fact]
@@ -20,6 +20,6 @@ public partial class OptionExtensionsTests
         var option = Option<TestClass>.Some(default!);
         var result = option.ToResult(new Error("1", "error"));
 
-        result.IsFailure.Should().BeTrue();
+        result.IsFailure.ShouldBeTrue();
     }
 }

@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -9,24 +9,24 @@ public class UnitTests
     {
         var unit = new Unit();
 
-        unit.Should().NotBeNull();
+        unit.ShouldBe(Unit.Default);
     }
 
     [Fact]
     public void Default_ShouldReturnUnitInstance()
     {
-        Unit.Default.Should().NotBeNull();
+        Unit.Default.ShouldBe(Unit.Default);
     }
 
     [Fact]
     public void GetHashCode_ShouldReturnZero()
     {
-        Unit.Default.GetHashCode().Should().Be(0);
+        Unit.Default.GetHashCode().ShouldBe(0);
     }
 
     [Fact]
     public void ToString_ShouldReturnStringRepresentation()
     {
-        Unit.Default.ToString().Should().Be("Unit:()");
+        Unit.Default.ToString().ShouldBe("Unit:()");
     }
 }

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 
 namespace Functional.Tests;
 
@@ -13,7 +13,7 @@ public partial class OptionExtensionsTests
 
         var result = option.Reduce(defaultTest);
 
-        result.Should().Be(test);
+        result.ShouldBe(test);
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public partial class OptionExtensionsTests
 
         var result = option.Reduce(defaultTest);
 
-        result.Should().Be(defaultTest);
+        result.ShouldBe(defaultTest);
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public partial class OptionExtensionsTests
 
         var result = option.Reduce(() => defaultTest);
 
-        result.Should().Be(test);
+        result.ShouldBe(test);
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public partial class OptionExtensionsTests
 
         var result = option.Reduce(() => defaultTest);
 
-        result.Should().Be(defaultTest);
+        result.ShouldBe(defaultTest);
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public partial class OptionExtensionsTests
 
         var result = option.Reduce(defaultOption);
 
-        result.Should().Be(option);
+        result.ShouldBe(option);
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public partial class OptionExtensionsTests
 
         var result = option.Reduce(defaultValue);
 
-        result.Should().Be(defaultValue);
+        result.ShouldBe(defaultValue);
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public partial class OptionExtensionsTests
         var result = option.Reduce(() => defaultValue);
 
         // Assert
-        result.Should().Be(option);
+        result.ShouldBe(option);
     }
 
     [Fact]
@@ -101,7 +101,7 @@ public partial class OptionExtensionsTests
         var result = option.Reduce(() => defaultValue);
 
         // Assert
-        result.Should().Be(defaultValue);
+        result.ShouldBe(defaultValue);
     }
 
     [Fact]
@@ -115,7 +115,7 @@ public partial class OptionExtensionsTests
         var result = option.Reduce(v => test, defaultValue);
 
         // Assert
-        result.Should().Be(test);
+        result.ShouldBe(test);
     }
 
     [Fact]
@@ -127,6 +127,6 @@ public partial class OptionExtensionsTests
 
         var result = option.Reduce(_ => newTest, defaultValue);
 
-        result.Should().Be(defaultValue);
+        result.ShouldBe(defaultValue);
     }
 }

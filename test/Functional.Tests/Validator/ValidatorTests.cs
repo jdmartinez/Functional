@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 
 namespace Functional.Tests;
 
@@ -12,7 +12,7 @@ public class ValidatorTests
         var test = new TestClass(0);
         var validator = Validator.Of(test);
 
-        validator.Value.Should().Be(test);
+        validator.Value.ShouldBe(test);
     }
 
     [Fact]
@@ -23,8 +23,8 @@ public class ValidatorTests
             .Ensure(t => t.Value, v => v > 0, "Value must be greater than 0")
             .Validate();
 
-        result.IsSuccess.Should().BeTrue();
-        result.Value.Should().Be(test);
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.ShouldBe(test);
     }
 
     [Fact]
@@ -35,9 +35,9 @@ public class ValidatorTests
             .Ensure(t => t.Value, v => v > 0, "Value must be greater than 0")
             .Validate();
 
-        result.IsFailure.Should().BeTrue();
-        result.Errors.Should().ContainSingle();
-        result.Errors[0].Message.Should().Be("Value must be greater than 0");
+        result.IsFailure.ShouldBeTrue();
+        result.Errors.Count.ShouldBe(1);
+        result.Errors[0].Message.ShouldBe("Value must be greater than 0");
     }
 
     [Fact]
@@ -50,8 +50,8 @@ public class ValidatorTests
             .Ensure(t => t.Value, v => v % 2 == 0, "Value must be even")
             .Validate();
 
-        result.IsFailure.Should().BeTrue();
-        result.Errors.Should().ContainSingle();
-        result.Errors[0].Message.Should().Be("Value must be lower than 10");
+        result.IsFailure.ShouldBeTrue();
+        result.Errors.Count.ShouldBe(1);
+        result.Errors[0].Message.ShouldBe("Value must be lower than 10");
     }
 }
