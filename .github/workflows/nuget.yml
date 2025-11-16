@@ -4,6 +4,10 @@ on:
   release:
     types: [ published ]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Optional tag to use when dispatching manually (format YYYY.MM.PATCH)'
+        required: false
 
 jobs:
   publish:
@@ -16,15 +20,26 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Validate tag format (YYYY.MM.PATCH expected)
+    - name: Resolve and validate tag (YYYY.MM.PATCH expected)
       run: |
-        TAG="${{ github.event.release.tag_name }}"
+        RELEASE_TAG='${{ github.event.release.tag_name }}'
+        INPUT_TAG='${{ github.event.inputs.tag }}'
+        echo "Release tag from event: '$RELEASE_TAG'"
+        echo "Input tag: '$INPUT_TAG'"
+        if [ -n "$RELEASE_TAG" ]; then
+          TAG="$RELEASE_TAG"
+        elif [ -n "$INPUT_TAG" ]; then
+          TAG="$INPUT_TAG"
+        else
+          echo "No tag provided. This workflow must be triggered by a release or run manually with the 'tag' input."
+          exit 1
+        fi
         echo "Validating tag format: $TAG"
-        # Accept tags like 2025.11.0 or 2025.1.2 (year. month. patch)
         if [[ ! $TAG =~ ^[0-9]{4}\.[0-9]{1,2}\.[0-9]+$ ]]; then
           echo "Invalid tag format: $TAG. Expected format: YYYY.MM.PATCH (e.g. 2025.11.0)"
           exit 1
         fi
+        echo "TAG=$TAG" >> $GITHUB_ENV
 
     - name: Setup .NET 10
       uses: actions/setup-dotnet@v4
@@ -96,7 +111,8 @@ jobs:
 
     - name: Pack NuGet packages (calendar version)
       run: |
-        TAG=${{ github.event.release.tag_name }}
+        TAG="$TAG"
+        echo "Packing packages with version: $TAG"
         dotnet pack ./src/Functional.sln --configuration Release --no-build --output ./nupkg \
           /p:Version=$TAG /p:PackageVersion=$TAG /p:ContinuousIntegrationBuild=true
 
