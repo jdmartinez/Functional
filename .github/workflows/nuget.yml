@@ -117,7 +117,8 @@ jobs:
       run: |
         TAG="$TAG"
         echo "Packing packages with version: $TAG"
-        dotnet pack ./src/Functional.sln --configuration Release --no-build --output ./nupkg \
+        # Pack after restore+build; avoid --no-build so pack can build if artifacts are missing
+        dotnet pack ./src/Functional.sln --configuration Release --output ./nupkg \
           /p:Version=$TAG /p:PackageVersion=$TAG /p:ContinuousIntegrationBuild=true
 
     - name: Push to NuGet
