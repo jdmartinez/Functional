@@ -1,4 +1,4 @@
-name: Publish to NuGet
+name: Publish Calendar Release
 
 on:
   release:
@@ -7,25 +7,101 @@ on:
 
 jobs:
   publish:
+    name: Publish NuGet Packages
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout code (full history for versioning)
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-    - name: Setup .NET
+    - name: Validate tag format (YYYY.MM.0 expected)
+      if: startsWith(github.event.release.tag_name, format('{0}.{1}.', format('{0,number,0000}', fromJson('{"y":0}').y), format('{0,number,00}', fromJson('{"m":0}').m))) == false
+      run: echo "Saltando validación personalizada (placeholder)" # (Opcional: se puede reemplazar por validación estricta)
+
+    - name: Setup .NET 10
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.x'
+        dotnet-version: '10.0.x'
+
+    - name: Install GitVersion (for metadata only)
+      run: dotnet tool install --global GitVersion.Tool || echo "GitVersion already installed"
 
     - name: Restore dependencies
       run: dotnet restore ./src/Functional.sln
-      
+
     - name: Build
       run: dotnet build ./src/Functional.sln --no-restore --configuration Release
 
-    - name: Pack NuGet package
-      run: dotnet pack ./src/Functional.sln --configuration Release --no-build --output ./nupkg /p:PackageVersion=${{ github.event.release.tag_name }}
+    - name: Test
+      run: dotnet test ./src/Functional.sln --no-build --configuration Release --logger trx
+
+    - name: Compute GitVersion (informational)
+      env:
+        PATH: $PATH:/home/runner/.dotnet/tools
+      run: |
+        dotnet-gitversion /output json > gitversion.json || echo "GitVersion failed"
+        echo "GitVersion output:" && cat gitversion.json || true
+        echo "TAG_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+
+    - name: Generate Release Notes
+      id: notes
+      run: |
+        echo "Generating release notes from previous tag to ${{ github.event.release.tag_name }}"
+        CURRENT_TAG="${{ github.event.release.tag_name }}"
+        # Get previous tag (second most recent) if exists
+        PREV_TAG=$(git tag --sort=-creatordate | sed -n '2p') || true
+        if [ -z "$PREV_TAG" ]; then
+          echo "No previous tag found, using initial commit"
+          RANGE="$(git rev-list --max-parents=0 HEAD)..$CURRENT_TAG"
+        else
+          RANGE="$PREV_TAG..$CURRENT_TAG"
+        fi
+        echo "Range: $RANGE"
+        COMMITS=$(git log --pretty=format:'%h%x09%s%x09%an' $RANGE || true)
+        # Categorize commits
+        FEAT=$(echo "$COMMITS" | grep -i '^.*\tfeat' || true)
+        FIX=$(echo "$COMMITS" | grep -i '^.*\tfix' || true)
+        DOCS=$(echo "$COMMITS" | grep -i '^.*\tdocs' || true)
+        REFACTOR=$(echo "$COMMITS" | grep -i '^.*\trefactor' || true)
+        TESTS=$(echo "$COMMITS" | grep -i '^.*\ttest' || true)
+        OTHER=$(echo "$COMMITS" | grep -viE '\t(feat|fix|docs|refactor|test)' || true)
+        {
+          echo "changelog<<EOF"
+          echo "# Release $CURRENT_TAG"
+          echo ""
+          if [ -n "$FEAT" ]; then
+            echo "## Features"; echo "$FEAT" | sed 's/^/ - /'; echo ""; fi
+          if [ -n "$FIX" ]; then
+            echo "## Fixes"; echo "$FIX" | sed 's/^/ - /'; echo ""; fi
+          if [ -n "$DOCS" ]; then
+            echo "## Docs"; echo "$DOCS" | sed 's/^/ - /'; echo ""; fi
+          if [ -n "$REFACTOR" ]; then
+            echo "## Refactors"; echo "$REFACTOR" | sed 's/^/ - /'; echo ""; fi
+          if [ -n "$TESTS" ]; then
+            echo "## Tests"; echo "$TESTS" | sed 's/^/ - /'; echo ""; fi
+          if [ -n "$OTHER" ]; then
+            echo "## Other"; echo "$OTHER" | sed 's/^/ - /'; echo ""; fi
+          echo "Generated automatically on $(date -u '+%Y-%m-%d %H:%M UTC')"
+          echo "EOF"
+        } >> $GITHUB_OUTPUT
+        echo "Release notes generated"
+
+    - name: Pack NuGet packages (calendar version)
+      run: |
+        TAG=${{ github.event.release.tag_name }}
+        dotnet pack ./src/Functional.sln --configuration Release --no-build --output ./nupkg \
+          /p:Version=$TAG /p:PackageVersion=$TAG /p:ContinuousIntegrationBuild=true
 
     - name: Push to NuGet
       run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+    - name: Attach Packages to Release
+      uses: softprops/action-gh-release@v1
+      if: github.event_name == 'release'
+      with:
+        files: ./nupkg/*.nupkg
+        body: ${{ steps.notes.outputs.changelog }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
