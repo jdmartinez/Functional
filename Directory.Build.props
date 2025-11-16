@@ -1,0 +1,43 @@
+<Project>
+  <PropertyGroup>
+    <!-- Información del autor -->
+    <Authors>Juan Diego Martínez</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/jdmartinez/Functional</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jdmartinez/Functional</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <!-- GitVersion Integration -->
+  <Target Name="InitGitVersion" BeforeTargets="BeforeBuild">
+    <Exec Command="dotnet-gitversion /output json /showvariable SemVer" ConsoleToMSBuild="true" IgnoreExitCode="true" StandardErrorImportance="low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="GitVersion_SemVer" />
+    </Exec>
+    <Exec Command="dotnet-gitversion /output json /showvariable AssemblySemVer" ConsoleToMSBuild="true" IgnoreExitCode="true" StandardErrorImportance="low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="GitVersion_AssemblySemVer" />
+    </Exec>
+    <Exec Command="dotnet-gitversion /output json /showvariable InformationalVersion" ConsoleToMSBuild="true" IgnoreExitCode="true" StandardErrorImportance="low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="GitVersion_InformationalVersion" />
+    </Exec>
+    <Exec Command="dotnet-gitversion /output json /showvariable Sha" ConsoleToMSBuild="true" IgnoreExitCode="true" StandardErrorImportance="low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="GitVersion_Sha" />
+    </Exec>
+  </Target>
+
+  <PropertyGroup Condition="'$(GitVersion_SemVer)' != ''">
+    <Version>$(GitVersion_SemVer)</Version>
+    <AssemblyVersion>$(GitVersion_AssemblySemVer)</AssemblyVersion>
+    <FileVersion>$(GitVersion_AssemblySemVer)</FileVersion>
+    <InformationalVersion>$(GitVersion_InformationalVersion)</InformationalVersion>
+    <PackageVersion>$(GitVersion_SemVer)</PackageVersion>
+  </PropertyGroup>
+
+  <!-- Fallback version si GitVersion no está disponible -->
+  <PropertyGroup Condition="'$(GitVersion_SemVer)' == ''">
+    <Version>0.0.1-local</Version>
+    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <FileVersion>0.0.1.0</FileVersion>
+    <InformationalVersion>0.0.1-local</InformationalVersion>
+    <PackageVersion>0.0.1-local</PackageVersion>
+  </PropertyGroup>
+</Project>
