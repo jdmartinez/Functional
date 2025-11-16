@@ -4,8 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>Functional.CSharp.EntityFrameworkCore</PackageId>
-    <PackageDescription>Entity Framework Core extensions for Functional.CSharp.Types</PackageDescription>
+    <PackageId>Funcional.Types.EntityFrameworkCore</PackageId>
+    <PackageDescription>Entity Framework Core Option/Result extensions for Funcional.Types</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
