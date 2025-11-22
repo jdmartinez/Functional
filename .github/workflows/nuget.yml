@@ -44,6 +44,8 @@ jobs:
           exit 1
         fi
         echo "TAG=$TAG" >> $GITHUB_ENV
+        # Use PACKAGE_VERSION as the canonical package version used across all dotnet pack steps
+        echo "PACKAGE_VERSION=$TAG" >> $GITHUB_ENV
 
     - name: Setup .NET 10
       uses: actions/setup-dotnet@v4
@@ -72,9 +74,9 @@ jobs:
 
     - name: Pack Functional.AspNetCore project (explicit)
       run: |
-        echo "Packing Functional.AspNetCore with version: $TAG"
+        echo "Packing Functional.AspNetCore with PACKAGE_VERSION: $PACKAGE_VERSION"
         dotnet pack ./src/Functional.AspNetCore/Functional.AspNetCore.csproj --configuration Release --output ./nupkg \
-          /p:Version=$TAG /p:PackageVersion=$TAG /p:ContinuousIntegrationBuild=true
+          /p:Version=$PACKAGE_VERSION /p:PackageVersion=$PACKAGE_VERSION /p:ContinuousIntegrationBuild=true
 
     - name: Generate Release Notes
       id: notes
@@ -121,11 +123,10 @@ jobs:
 
     - name: Pack NuGet packages (calendar version)
       run: |
-        TAG="$TAG"
-        echo "Packing packages with version: $TAG"
+        echo "Packing solution packages with PACKAGE_VERSION: $PACKAGE_VERSION"
         # Pack after restore+build; avoid --no-build so pack can build if artifacts are missing
         dotnet pack ./src/Functional.sln --configuration Release --output ./nupkg \
-          /p:Version=$TAG /p:PackageVersion=$TAG /p:ContinuousIntegrationBuild=true
+          /p:Version=$PACKAGE_VERSION /p:PackageVersion=$PACKAGE_VERSION /p:ContinuousIntegrationBuild=true
 
     - name: Push to NuGet
       run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
