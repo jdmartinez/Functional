@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Functional.AspNetCore</PackageId>
+    <Description>ASP.NET Core Minimal API extensions for the Functional library (Option, Result, Unit, Validator, Error).</Description>
+    <Authors>Juan Diego Martínez</Authors>
+    <RepositoryUrl>https://github.com/jdmartinez/Functional</RepositoryUrl>
+    <PackageTags>functional;aspnetcore;minimal-api;extensions</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <!-- No PackageReference entries for ASP.NET Core packages: rely on shared framework and implicit references. -->
+
+  <ItemGroup>
+    <ProjectReference Include="../Functional/Functional.csproj" />
+  </ItemGroup>
+  <!-- Rely on the ASP.NET Core shared framework for Minimal API types -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+</Project>
