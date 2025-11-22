@@ -124,8 +124,6 @@ dotnet pack src/Functional/Functional.csproj -c Release
 dotnet pack src/Functional.EntityFrameworkCore/Functional.EntityFrameworkCore.csproj -c Release
 ```
 
-To publish to NuGet, set `NUGET_API_KEY` in your CI environment and push an annotated tag to trigger the workflow.
-
 ## Contributing
 
 Contributions are welcome. Quick guidelines:

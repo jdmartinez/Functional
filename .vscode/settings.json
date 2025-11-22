@@ -1,4 +1,7 @@
 {
     "dotnet-test-explorer.testArguments": "/p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=lcov.info",
-    "dotnet-test-explorer.testProjectPath": "**/*Functional.Tests.csproj"
+    "dotnet-test-explorer.testProjectPath": "**/*Functional.Tests.csproj",
+    "conventionalCommits.scopes": [
+        "Updated README"
+    ]
  }
