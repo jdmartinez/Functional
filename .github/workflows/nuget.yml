@@ -70,6 +70,12 @@ jobs:
         echo "GitVersion output:" && cat gitversion.json || true
         echo "TAG_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
 
+    - name: Pack Functional.AspNetCore project (explicit)
+      run: |
+        echo "Packing Functional.AspNetCore with version: $TAG"
+        dotnet pack ./src/Functional.AspNetCore/Functional.AspNetCore.csproj --configuration Release --output ./nupkg \
+          /p:Version=$TAG /p:PackageVersion=$TAG /p:ContinuousIntegrationBuild=true
+
     - name: Generate Release Notes
       id: notes
       run: |
