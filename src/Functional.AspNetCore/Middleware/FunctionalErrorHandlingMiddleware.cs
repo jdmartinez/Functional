@@ -1,4 +1,4 @@
-﻿namespace Functional.AspNetCore.Middleware;
+﻿namespace Functional.AspNetCore;
 
 using System;
 using System.Text.Json;

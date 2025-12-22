@@ -1,4 +1,4 @@
-﻿namespace Functional.AspNetCore.Results;
+﻿namespace Functional.AspNetCore;
 
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -7,21 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 
 public static class ActionResultExtensions
 {
-    public static IResult ToEndpointResult(this Functional.Result result)
-    {
-        return new FunctionalResultHttpResult(result);
-    }
+    public static IResult ToEndpointResult(this Result result) => new FunctionalResult(result);
 
-    public static IResult ToEndpointResult<T>(this Functional.Result<T> result)
-    {
-        return new FunctionalResultOfTHttpResult<T>(result);
-    }
+    public static IResult ToEndpointResult<T>(this Result<T> result) => new FunctionalResult<T>(result);
 
-    private sealed class FunctionalResultHttpResult : IResult
+    private sealed class FunctionalResult : IResult
     {
-        private readonly Functional.Result _result;
+        private readonly Result _result;
 
-        public FunctionalResultHttpResult(Functional.Result result) => _result = result;
+        public FunctionalResult(Result result) => _result = result;
 
         public async Task ExecuteAsync(HttpContext httpContext)
         {
@@ -45,11 +39,11 @@ public static class ActionResultExtensions
         }
     }
 
-    private sealed class FunctionalResultOfTHttpResult<T> : IResult
+    private sealed class FunctionalResult<T> : IResult
     {
-        private readonly Functional.Result<T> _result;
+        private readonly Result<T> _result;
 
-        public FunctionalResultOfTHttpResult(Functional.Result<T> result) => _result = result;
+        public FunctionalResult(Result<T> result) => _result = result;
 
         public async Task ExecuteAsync(HttpContext httpContext)
         {

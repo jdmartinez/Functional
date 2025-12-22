@@ -1,4 +1,4 @@
-﻿namespace Functional.AspNetCore.Extensions;
+﻿namespace Functional.AspNetCore;
 
 using Microsoft.AspNetCore.Builder;
 
@@ -9,7 +9,7 @@ public static class WebApplicationUseExtensions
     /// </summary>
     public static WebApplication UseFunctionalErrorHandling(this WebApplication app)
     {
-        app.UseMiddleware<Functional.AspNetCore.Middleware.FunctionalErrorHandlingMiddleware>();
+        app.UseMiddleware<FunctionalErrorHandlingMiddleware>();
         return app;
     }
 }

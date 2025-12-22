@@ -1,4 +1,4 @@
-﻿namespace Functional.AspNetCore.Extensions;
+﻿namespace Functional.AspNetCore;
 
 using Microsoft.Extensions.DependencyInjection;
 

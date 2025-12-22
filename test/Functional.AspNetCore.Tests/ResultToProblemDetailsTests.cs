@@ -1,7 +1,5 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Xunit;
 
@@ -16,8 +14,8 @@ public class ResultToProblemDetailsTests
         var ms = new MemoryStream();
         ctx.Response.Body = ms;
 
-        var result = Functional.Result<int>.Success(42);
-        var iresult = Functional.AspNetCore.Results.ActionResultExtensions.ToEndpointResult(result);
+        var result = Result<int>.Success(42);
+        var iresult = ActionResultExtensions.ToEndpointResult(result);
         await iresult.ExecuteAsync(ctx);
 
         ctx.Response.Body.Seek(0, SeekOrigin.Begin);
@@ -36,9 +34,9 @@ public class ResultToProblemDetailsTests
         var ms = new MemoryStream();
         ctx.Response.Body = ms;
 
-        var err = new Functional.Error("ERR_CODE", "Something went wrong");
-        var result = Functional.Result<int>.Failure(err);
-        var iresult = Functional.AspNetCore.Results.ActionResultExtensions.ToEndpointResult(result);
+        var err = new Error("ERR_CODE", "Something went wrong");
+        var result = Result<int>.Failure(err);
+        var iresult = ActionResultExtensions.ToEndpointResult(result);
         await iresult.ExecuteAsync(ctx);
 
         ctx.Response.Body.Seek(0, SeekOrigin.Begin);
