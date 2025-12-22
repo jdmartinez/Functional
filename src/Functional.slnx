@@ -1,0 +1,13 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="../test/Functional.AspNetCore.Tests/Functional.AspNetCore.Tests.csproj" />
+  <Project Path="../test/Functional.EntityFrameworkCore.Tests/Functional.EntityFrameworkCore.Tests.csproj" />
+  <Project Path="../test/Functional.Tests/Functional.Tests.csproj" />
+  <Project Path="Functional.AspNetCore/Functional.AspNetCore.csproj" />
+  <Project Path="Functional.EntityFrameworkCore/Functional.EntityFrameworkCore.csproj" />
+  <Project Path="Functional/Functional.csproj" />
+</Solution>
