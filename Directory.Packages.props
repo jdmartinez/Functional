@@ -17,5 +17,7 @@
     <!-- Code Coverage -->
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
+
+    <!-- Note: ASP.NET Core types are provided by the shared framework; avoid adding PackageVersion entries here unless specific NuGet packages are required. -->
   </ItemGroup>
 </Project>

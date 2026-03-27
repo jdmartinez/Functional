@@ -44,6 +44,8 @@ jobs:
           exit 1
         fi
         echo "TAG=$TAG" >> $GITHUB_ENV
+        # Use PACKAGE_VERSION as the canonical package version used across all dotnet pack steps
+        echo "PACKAGE_VERSION=$TAG" >> $GITHUB_ENV
 
     - name: Setup .NET 10
       uses: actions/setup-dotnet@v4
@@ -69,6 +71,12 @@ jobs:
         dotnet-gitversion /output json > gitversion.json || echo "GitVersion failed"
         echo "GitVersion output:" && cat gitversion.json || true
         echo "TAG_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+
+    - name: Pack Functional.AspNetCore project (explicit)
+      run: |
+        echo "Packing Functional.AspNetCore with PACKAGE_VERSION: $PACKAGE_VERSION"
+        dotnet pack ./src/Functional.AspNetCore/Functional.AspNetCore.csproj --configuration Release --output ./nupkg \
+          /p:Version=$PACKAGE_VERSION /p:PackageVersion=$PACKAGE_VERSION /p:ContinuousIntegrationBuild=true
 
     - name: Generate Release Notes
       id: notes
@@ -115,14 +123,38 @@ jobs:
 
     - name: Pack NuGet packages (calendar version)
       run: |
-        TAG="$TAG"
-        echo "Packing packages with version: $TAG"
+        echo "Packing solution packages with PACKAGE_VERSION: $PACKAGE_VERSION"
         # Pack after restore+build; avoid --no-build so pack can build if artifacts are missing
         dotnet pack ./src/Functional.sln --configuration Release --output ./nupkg \
-          /p:Version=$TAG /p:PackageVersion=$TAG /p:ContinuousIntegrationBuild=true
+          /p:Version=$PACKAGE_VERSION /p:PackageVersion=$PACKAGE_VERSION /p:ContinuousIntegrationBuild=true
 
     - name: Push to NuGet
       run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+    - name: Verify package versions
+      run: |
+        set -euo pipefail
+        echo "Verifying nupkg versions against PACKAGE_VERSION=$PACKAGE_VERSION"
+        files=(./nupkg/*.nupkg)
+        if [ ${#files[@]} -eq 0 ]; then
+          echo "No packages found in ./nupkg"; exit 1
+        fi
+        for f in "${files[@]}"; do
+          echo "Inspecting $f"
+          nuspec=$(unzip -p "$f" "*.nuspec" 2>/dev/null || true)
+          if [ -z "$nuspec" ]; then
+            echo "No .nuspec found inside $f"; exit 1
+          fi
+          ver=$(echo "$nuspec" | grep -oPm1 "(?<=<version>)[^<]+") || true
+          if [ -z "$ver" ]; then
+            echo "Could not find <version> in nuspec for $f"; exit 1
+          fi
+          echo "Found version $ver in $f"
+          if [ "$ver" != "$PACKAGE_VERSION" ]; then
+            echo "Version mismatch in $f: expected $PACKAGE_VERSION but found $ver"; exit 1
+          fi
+        done
+        echo "All packages in ./nupkg have version $PACKAGE_VERSION"
 
     - name: Attach Packages to Release
       uses: softprops/action-gh-release@v1
